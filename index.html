@@ -85,6 +85,40 @@
     list-style:none;
     padding:0;
   }
+
+  /* ---- recurso em destaque (o núcleo do produto) ---- */
+  .destaque{
+    border:1px solid var(--ink-3);
+    border-left:3px solid var(--accent);
+    background:var(--ink-2);
+    padding:1.5rem 1.6rem;
+    margin:1.5rem 0;
+  }
+  .destaque h3{margin:0 0 .5rem;font-size:1.15rem}
+  .destaque p{margin:0;color:var(--paper);opacity:.9}
+
+  /* ---- molduras de print ----
+     Enquanto não há imagem dentro, a figura não ocupa espaço nenhum: assim o
+     site fica correto antes e depois dos prints entrarem, sem placeholder
+     cinza nem caixa vazia. */
+  .print{margin:0;display:none}
+  .print:has(img){display:block;margin:1rem 0 0}
+  .print img{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--ink-3);
+    border-radius:.35rem;
+    background:var(--ink);
+  }
+  .print figcaption{
+    margin-top:.5rem;
+    font-size:.8rem;
+    color:var(--muted);
+  }
+  /* Legenda sozinha (sem imagem) também não aparece. */
+  .print:not(:has(img)) figcaption{display:none}
+
   .plataformas li{
     border:1px solid var(--ink-3);
     border-radius:2rem;
@@ -112,8 +146,8 @@
     <h1>LiveSurf</h1>
 
     <p class="promessa">
-      Acompanhe várias transmissões ao vivo na mesma tela, entenda quem está
-      do outro lado e transforme isso em pauta.
+      Observe o chat das transmissões em tempo real, entenda o que a audiência
+      está dizendo e transforme isso em corte, pauta e relatório.
     </p>
 
     <span class="selo">Chat Observability para transmissões ao vivo</span>
@@ -145,62 +179,86 @@
 
   <h2>O que faz</h2>
 
+  <!-- O primeiro recurso ocupa a largura toda: é o núcleo do produto, o que
+       dá nome ao posicionamento (chat observability). Os demais vêm em grade,
+       na ordem de ênfase definida pelo Diego. -->
+  <article class="destaque">
+    <h3>Observador de chats em tempo real</h3>
+    <p>
+      Acompanhe o chat das transmissões enquanto elas acontecem, com disparo
+      <strong>automatizado ou manual</strong>: você marca os canais que
+      interessam e a observação começa sozinha quando eles entram ao vivo — ou
+      você abre na hora que quiser, na live que quiser.
+    </p>
+    <figure class="print" data-print="observador">
+      <figcaption>Observação de chat em tempo real</figcaption>
+    </figure>
+  </article>
+
   <div class="recursos">
     <div class="recurso">
-      <h3>TV e mosaico ao vivo</h3>
+      <h3>Gerador de cortes</h3>
       <p>
-        Várias transmissões simultâneas na mesma tela, com áudio de uma por
-        vez. A cobertura inteira de um assunto, de uma olhada só.
+        <strong>Automatizado, semi-automatizado e manual.</strong> A plataforma
+        detecta os momentos pelo comportamento do chat, sugere para você
+        aprovar, ou aceita a marcação feita à mão.
       </p>
+      <figure class="print" data-print="cortes"></figure>
     </div>
-    <div class="recurso">
-      <h3>Observação de chat</h3>
-      <p>
-        O chat público de uma transmissão vira leitura de audiência: quem
-        participa, contribuições, moderadores e picos de atividade.
-      </p>
-    </div>
-    <div class="recurso">
-      <h3>Geração de cortes</h3>
-      <p>
-        Do automático ao manual: a plataforma sugere os momentos a partir do
-        comportamento do chat, você ajusta ou marca à mão.
-      </p>
-    </div>
+
     <div class="recurso">
       <h3>Roteiro de lives</h3>
       <p>
-        Monte a pauta da sua transmissão em ondas de vídeos e notícias,
-        prontas para usar no ar.
+        Monte a pauta da transmissão em <strong>ondas de vídeos e
+        notícias</strong>, prontas para entrar no ar na sequência que você
+        definir.
       </p>
+      <figure class="print" data-print="roteiro"></figure>
     </div>
+
     <div class="recurso">
       <h3>Radar de trends</h3>
       <p>
-        O que está subindo agora, cruzando os chats observados com feeds de
-        notícias do Brasil e do mundo.
+        O que está subindo agora, cruzando <strong>os chats observados</strong>
+        com <strong>feeds de notícias do Brasil e do mundo</strong>.
       </p>
+      <figure class="print" data-print="radar"></figure>
     </div>
+
     <div class="recurso">
       <h3>Grade de programação</h3>
       <p>
-        A agenda das transmissões que importam para você, em visão diária,
-        semanal e mensal.
+        A agenda das transmissões que importam para a sua operação, em visão
+        <strong>diária, semanal e mensal</strong>.
       </p>
+      <figure class="print" data-print="programacao"></figure>
     </div>
+
+    <div class="recurso">
+      <h3>TV</h3>
+      <p>
+        As lives <strong>ao vivo e em mosaico</strong>: várias transmissões
+        simultâneas na mesma tela, com áudio de uma por vez.
+      </p>
+      <figure class="print" data-print="tv"></figure>
+    </div>
+
     <div class="recurso">
       <h3>Relatórios e dashboards</h3>
       <p>
         Da transmissão isolada ao acumulado por canal: horas observadas,
         participação, contribuições e recorrência de público.
       </p>
+      <figure class="print" data-print="relatorios"></figure>
     </div>
+
     <div class="recurso">
       <h3>Catálogo de vídeos</h3>
       <p>
-        Tudo que os canais acompanhados publicaram, organizado e pesquisável
-        num lugar só.
+        Tudo que os canais acompanhados <strong>já publicaram</strong>,
+        organizado e pesquisável num lugar só.
       </p>
+      <figure class="print" data-print="catalogo"></figure>
     </div>
   </div>
 
