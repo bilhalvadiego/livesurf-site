@@ -32,6 +32,39 @@
 
 * { box-sizing: border-box; }
 
+/* ---------------------------------------------------------------------------
+   Fundo da marca: o catálogo, bem apagado
+   ---------------------------------------------------------------------------
+   Uma versão reduzida e desfocada do print do catálogo, atrás de tudo. O
+   desfoque é o ponto: some com o detalhe legível (que competiria com o texto)
+   e deixa só a textura de capas de vídeo — dá contexto sem virar ruído.
+
+   ⚠️ Opacidade baixa de propósito. Estas páginas incluem Política de
+   Privacidade e Termos, que precisam ser LIDOS: qualquer coisa que atrapalhe
+   o contraste do texto é problema, não enfeite. O `body` mantém a cor sólida
+   por baixo, então o fundo nunca decide sozinho a cor da página.
+--------------------------------------------------------------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("./fundo.jpg") center / cover no-repeat;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+/* Em tela pequena a imagem fica esticada e o custo não compensa. */
+@media (max-width: 40rem) {
+  body::before { opacity: 0.04; }
+}
+
+/* Quem pediu menos estímulo visual não recebe imagem de fundo nenhuma. */
+@media (prefers-reduced-motion: reduce) {
+  body::before { opacity: 0.03; }
+}
+
+
 body {
   margin: 0;
   background: var(--ink);
