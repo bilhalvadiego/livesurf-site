@@ -119,6 +119,52 @@
   /* Legenda sozinha (sem imagem) também não aparece. */
   .print:not(:has(img)) figcaption{display:none}
 
+
+  /* ---- ampliar print ao clicar ----
+     Um print de interface é ilegível na largura da coluna; clicar abre em
+     tela cheia, que é onde ele de fato prova alguma coisa. */
+  .print img{cursor:zoom-in}
+
+  .lupa{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:none;
+    place-items:center;
+    padding:1.5rem;
+    background:rgba(11,11,15,.94);
+    cursor:zoom-out;
+  }
+  .lupa[open]{display:grid}
+  .lupa img{
+    max-width:100%;
+    max-height:calc(100vh - 6rem);
+    width:auto;
+    height:auto;
+    border:1px solid var(--ink-3);
+    border-radius:.35rem;
+  }
+  .lupa figcaption{
+    margin-top:.75rem;
+    text-align:center;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+  .lupa-fechar{
+    position:absolute;
+    top:1rem;
+    right:1.25rem;
+    background:transparent;
+    border:1px solid var(--ink-3);
+    border-radius:2rem;
+    color:var(--paper);
+    font:inherit;
+    font-size:.85rem;
+    padding:.35rem 1rem;
+    cursor:pointer;
+  }
+  .lupa-fechar:hover{border-color:var(--accent)}
+
   .plataformas li{
     border:1px solid var(--ink-3);
     border-radius:2rem;
@@ -374,6 +420,58 @@
         video.remove();
       });
     }
+  })();
+</script>
+
+
+<div class="lupa" id="lupa" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button class="lupa-fechar" type="button" aria-label="Fechar">Fechar ✕</button>
+  <figure style="margin:0">
+    <img id="lupa-img" src="" alt="">
+    <figcaption id="lupa-legenda"></figcaption>
+  </figure>
+</div>
+
+<script>
+  // Clique no print abre ampliado. Fecha no clique fora, no botão ou com Esc.
+  (function () {
+    var lupa = document.getElementById("lupa");
+    var img = document.getElementById("lupa-img");
+    var legenda = document.getElementById("lupa-legenda");
+    var ultimoFoco = null;
+
+    function abrir(origem) {
+      img.src = origem.currentSrc || origem.src;
+      img.alt = origem.alt;
+      var fig = origem.closest("figure");
+      var cap = fig && fig.querySelector("figcaption");
+      legenda.textContent = cap ? cap.textContent : "";
+      ultimoFoco = document.activeElement;
+      lupa.setAttribute("open", "");
+      document.body.style.overflow = "hidden";
+      lupa.querySelector(".lupa-fechar").focus();
+    }
+
+    function fechar() {
+      lupa.removeAttribute("open");
+      document.body.style.overflow = "";
+      img.src = "";
+      if (ultimoFoco) ultimoFoco.focus();
+    }
+
+    document.querySelectorAll(".print img").forEach(function (el) {
+      el.addEventListener("click", function () { abrir(el); });
+      // Teclado: o print vira alvo focável, senão só quem usa mouse amplia.
+      el.tabIndex = 0;
+      el.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(el); }
+      });
+    });
+
+    lupa.addEventListener("click", fechar);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && lupa.hasAttribute("open")) fechar();
+    });
   })();
 </script>
 
