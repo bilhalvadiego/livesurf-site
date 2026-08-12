@@ -42,10 +42,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Coluna de LEITURA: texto corrido nunca passa daqui, senão a linha fica
+   longa demais para o olho acompanhar. */
 .conteudo {
   max-width: 46rem;
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
+}
+
+/* Faixa LARGA: para grades de cards e prints, que ganham em respiro
+   horizontal — o oposto do texto. Cresce até 84rem e depois para. */
+.largo {
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Dentro da faixa larga, um bloco de texto centralizado volta à largura
+   de leitura, para o título/intro da seção não esticar. */
+.largo > .intro {
+  max-width: 46rem;
+  margin-inline: auto;
 }
 
 h1, h2, h3 { text-wrap: balance; }

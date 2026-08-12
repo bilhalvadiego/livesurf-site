@@ -45,7 +45,7 @@
     gap:1.25rem;
     text-align:center;
     padding:3rem 1.5rem;
-    max-width:38rem;
+    max-width:44rem;
   }
   .marca svg{width:clamp(4.5rem,12vw,6.5rem);height:auto}
   .marca h1{margin:0;font-size:clamp(2.4rem,7vw,4rem)}
@@ -53,8 +53,9 @@
     margin:0;
     color:var(--paper);
     opacity:.85;
-    font-size:clamp(1rem,2.4vw,1.2rem);
-    max-width:32rem;
+    font-size:clamp(1.02rem,2.2vw,1.28rem);
+    max-width:36rem;
+    text-wrap:balance;
   }
   .selo{
     font-family:var(--mono);
@@ -64,18 +65,83 @@
     color:var(--accent);
   }
 
-  /* ---- o que o produto faz ---- */
+  /* ---- grade de recursos ----
+     Todos os cards falam a mesma língua visual. O primeiro é mais largo
+     porque é o núcleo do produto — mas é diferença de ESPAÇO, não de
+     tratamento: mesma moldura, mesmo peso de título, mesmo print. */
   .recursos{
     display:grid;
-    gap:1px;
-    grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
-    background:var(--ink-3);
-    border:1px solid var(--ink-3);
-    margin:1.5rem 0;
+    gap:1.25rem;
+    grid-template-columns:1fr;
+    margin:2rem 0 1rem;
   }
-  .recurso{background:var(--ink);padding:1.25rem 1.35rem;display:flex;flex-direction:column;gap:.4rem}
-  .recurso h3{margin:0}
-  .recurso p{margin:0;color:var(--muted);font-size:.93rem}
+  @media (min-width:52rem){
+    .recursos{grid-template-columns:repeat(2,1fr)}
+    .recurso.principal{grid-column:1 / -1}
+  }
+  @media (min-width:76rem){
+    .recursos{grid-template-columns:repeat(3,1fr)}
+    .recurso.principal{grid-column:1 / -1}
+  }
+
+  .recurso{
+    display:flex;
+    flex-direction:column;
+    border:1px solid var(--ink-3);
+    border-radius:.5rem;
+    background:var(--ink-2);
+    overflow:hidden;
+  }
+  .recurso .texto{
+    padding:1.15rem 1.3rem;
+    display:flex;
+    flex-direction:column;
+    gap:.4rem;
+  }
+  .recurso h3{
+    margin:0;
+    font-size:1.05rem;
+    letter-spacing:-.01em;
+  }
+  .recurso .promessa{
+    margin:0;
+    color:var(--accent);
+    font-size:.9rem;
+    font-weight:500;
+  }
+  .recurso p:not(.promessa){
+    margin:0;
+    color:var(--muted);
+    font-size:.93rem;
+  }
+
+  /* O card principal põe texto e print lado a lado quando há espaço —
+     é o que lhe dá presença sem precisar de fonte maior nem cor especial. */
+  @media (min-width:52rem){
+    .recurso.principal{display:grid; grid-template-columns:minmax(18rem,1fr) 1.4fr; align-items:center}
+    .recurso.principal .texto{padding:1.75rem 1.9rem}
+    .recurso.principal h3{font-size:1.3rem}
+    .recurso.principal .promessa{font-size:1rem}
+  }
+
+  /* ---- prints dentro do card ---- */
+  .print{margin:0;display:none}
+  .print:has(img){display:block}
+  .print img{
+    display:block;
+    width:100%;
+    height:auto;
+    border-top:1px solid var(--ink-3);
+    background:var(--ink);
+    cursor:zoom-in;
+  }
+  .recurso.principal .print img{border-top:0; border-left:1px solid var(--ink-3)}
+  .print figcaption{
+    padding:.6rem 1.3rem .9rem;
+    font-size:.8rem;
+    color:var(--muted);
+  }
+  .print:not(:has(img)) figcaption{display:none}
 
   .plataformas{
     display:flex;
@@ -223,112 +289,106 @@
     que a audiência está dizendo enquanto a transmissão acontece.
   </p>
 
-  <h2>O que faz</h2>
-
-  <!-- O primeiro recurso ocupa a largura toda: é o núcleo do produto, o que
-       dá nome ao posicionamento (chat observability). Os demais vêm em grade,
-       na ordem de ênfase definida pelo Diego. -->
-  <article class="destaque">
-    <h3>Observador de chats em tempo real</h3>
-    <p>
-      Acompanhe o chat das transmissões enquanto elas acontecem, com disparo
-      <strong>automatizado ou manual</strong>: você marca os canais que
-      interessam e a observação começa sozinha quando eles entram ao vivo — ou
-      você abre na hora que quiser, na live que quiser.
-    </p>
-    <figure class="print" data-print="observador">
-      <img src="./assets/prints/observador.png" alt="Painel de observação com três transmissões acompanhadas ao mesmo tempo, incluindo duas lives simultâneas do mesmo canal" loading="lazy" decoding="async">
-      <figcaption>Três transmissões observadas ao mesmo tempo — duas delas do mesmo canal</figcaption>
-    </figure>
-  </article>
-
-  <div class="recursos">
-    <div class="recurso">
-      <h3>Gerador de cortes</h3>
-      <p>
-        <strong>Automatizado, semi-automatizado e manual.</strong> A plataforma
-        detecta os momentos pelo comportamento do chat, sugere para você
-        aprovar, ou aceita a marcação feita à mão.
-      </p>
-      <figure class="print" data-print="cortes">
-      <img src="./assets/prints/cortes.png" alt="Gerador de cortes com sugestões automáticas de trechos a partir do comportamento do chat, e campos de início e fim para marcação manual" loading="lazy" decoding="async">
-      <figcaption>Sugestões automáticas de trecho, com ajuste manual de início e fim</figcaption>
-    </figure>
-    </div>
-
-    <div class="recurso">
-      <h3>Roteiro de lives</h3>
-      <p>
-        Monte a pauta da transmissão em <strong>ondas de vídeos e
-        notícias</strong>, prontas para entrar no ar na sequência que você
-        definir.
-      </p>
-      <figure class="print" data-print="roteiro">
-      <img src="./assets/prints/roteiro.jpg" alt="Onda de notícias montada com matérias de várias fontes, prontas para virar pauta da transmissão" loading="lazy" decoding="async">
-      <figcaption>Onda de notícias pronta para virar pauta</figcaption>
-    </figure>
-    </div>
-
-    <div class="recurso">
-      <h3>Radar de trends</h3>
-      <p>
-        O que está subindo agora, cruzando <strong>os chats observados</strong>
-        com <strong>feeds de notícias do Brasil e do mundo</strong>.
-      </p>
-      <figure class="print" data-print="radar">
-      <img src="./assets/prints/radar.png" alt="Radar de trends listando assuntos em movimento, com status, número de vídeos e velocidade de atenção" loading="lazy" decoding="async">
-      <figcaption>Assuntos em movimento, ordenados por velocidade de atenção</figcaption>
-    </figure>
-    </div>
-
-    <div class="recurso">
-      <h3>Grade de programação</h3>
-      <p>
-        A agenda das transmissões que importam para a sua operação, em visão
-        <strong>diária, semanal e mensal</strong>.
-      </p>
-      <figure class="print" data-print="programacao">
-      <img src="./assets/prints/programacao.png" alt="Grade de programação em visão semanal, com os programas de cada canal distribuídos por dia e horário" loading="lazy" decoding="async">
-      <figcaption>Visão semanal da grade, com Dia e Mês a um clique</figcaption>
-    </figure>
-    </div>
-
-    <div class="recurso">
-      <h3>TV</h3>
-      <p>
-        As lives <strong>ao vivo e em mosaico</strong>: várias transmissões
-        simultâneas na mesma tela, com áudio de uma por vez.
-      </p>
-      <figure class="print" data-print="tv">
-      <img src="./assets/prints/tv.jpg" alt="Mosaico com nove transmissões ao vivo simultâneas na mesma tela" loading="lazy" decoding="async">
-      <figcaption>Nove transmissões ao vivo na mesma tela</figcaption>
-    </figure>
-    </div>
-
-    <div class="recurso">
-      <h3>Relatórios e dashboards</h3>
-      <p>
-        Da transmissão isolada ao acumulado por canal: horas observadas,
-        participação, contribuições e recorrência de público.
-      </p>
-      <figure class="print" data-print="relatorios">
-      <img src="./assets/prints/relatorios.png" alt="Relatório consolidado de um canal com horas observadas, mensagens, pessoas alcançadas e a lista de todas as transmissões acompanhadas" loading="lazy" decoding="async">
-      <figcaption>Relatório consolidado por canal, com todas as transmissões acompanhadas</figcaption>
-    </figure>
-    </div>
-
-    <div class="recurso">
-      <h3>Catálogo de vídeos</h3>
-      <p>
-        Tudo que os canais acompanhados <strong>já publicaram</strong>,
-        organizado e pesquisável num lugar só.
-      </p>
-      <figure class="print" data-print="catalogo">
-      <img src="./assets/prints/catalogo.jpg" alt="Catálogo de vídeos publicados pelos canais acompanhados, com capa, título e descrição" loading="lazy" decoding="async">
-      <figcaption>Tudo que os canais acompanhados publicaram, num lugar só</figcaption>
-    </figure>
-    </div>
   </div>
+
+  <section class="largo">
+    <div class="intro">
+      <h2>O que faz</h2>
+    </div>
+
+    <div class="recursos">
+    <article class="recurso principal">
+      <div class="texto">
+        <h3>Observador de chats em tempo real</h3>
+        <p class="promessa">Saiba o que a audiência está dizendo enquanto ainda dá tempo de agir.</p>
+        <p>Acompanhe o chat de várias transmissões ao mesmo tempo, com disparo automatizado ou manual: marque os canais que interessam e a observação começa sozinha quando eles entram no ar — ou abra na hora, na live que quiser.</p>
+      </div>
+      <figure class="print" data-print="observador">
+        <img src="./assets/prints/observador.png" alt="Painel de observação com três transmissões acompanhadas ao mesmo tempo, incluindo duas lives simultâneas do mesmo canal" loading="lazy" decoding="async">
+        <figcaption>Três transmissões observadas ao mesmo tempo — duas delas do mesmo canal</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>Gerador de cortes</h3>
+        <p class="promessa">O corte que tomaria uma hora de garimpo sai pronto.</p>
+        <p>Automatizado, semi-automatizado e manual. A plataforma acha os momentos pelo comportamento do chat e entrega a lista para você aprovar — ou marque na mão, se preferir o controle fino.</p>
+      </div>
+      <figure class="print" data-print="cortes">
+        <img src="./assets/prints/cortes.png" alt="Gerador de cortes com sugestões automáticas de trechos a partir do comportamento do chat, e campos de início e fim para marcação manual" loading="lazy" decoding="async">
+        <figcaption>Sugestões automáticas, com ajuste manual de início e fim</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>Roteiro de lives</h3>
+        <p class="promessa">Chegue ao ar com a pauta pronta.</p>
+        <p>Monte a transmissão em ondas de vídeos e notícias, na ordem que você definir. O que ia ser improviso vira roteiro — e o que era pesquisa de última hora já está separado.</p>
+      </div>
+      <figure class="print" data-print="roteiro">
+        <img src="./assets/prints/roteiro.jpg" alt="Onda de notícias montada com matérias de várias fontes, prontas para virar pauta da transmissão" loading="lazy" decoding="async">
+        <figcaption>Onda de notícias pronta para virar pauta</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>Radar de trends</h3>
+        <p class="promessa">Veja o assunto subir antes de virar notícia velha.</p>
+        <p>Cruza os chats que você observa com feeds de notícias do Brasil e do mundo, e ordena por velocidade de atenção — não por volume. O que está acelerando aparece primeiro.</p>
+      </div>
+      <figure class="print" data-print="radar">
+        <img src="./assets/prints/radar.png" alt="Radar de trends listando assuntos em movimento, com status, número de vídeos e velocidade de atenção" loading="lazy" decoding="async">
+        <figcaption>Assuntos ordenados por velocidade, não por volume</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>Grade de programação</h3>
+        <p class="promessa">Nunca mais descubra a transmissão depois que ela acabou.</p>
+        <p>A agenda dos canais que importam para a sua operação, em visão diária, semanal e mensal. Dá para planejar a semana sabendo o que vai ao ar e quando.</p>
+      </div>
+      <figure class="print" data-print="programacao">
+        <img src="./assets/prints/programacao.png" alt="Grade de programação em visão semanal, com os programas de cada canal distribuídos por dia e horário" loading="lazy" decoding="async">
+        <figcaption>Visão semanal, com Dia e Mês a um clique</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>TV</h3>
+        <p class="promessa">A cobertura inteira de um assunto numa olhada só.</p>
+        <p>Todas as transmissões ao vivo na mesma tela, em mosaico, com áudio de uma por vez. Compare o enquadramento de cada canal sobre o mesmo fato, sem trocar de aba.</p>
+      </div>
+      <figure class="print" data-print="tv">
+        <img src="./assets/prints/tv.jpg" alt="Mosaico com nove transmissões ao vivo simultâneas na mesma tela" loading="lazy" decoding="async">
+        <figcaption>Nove transmissões ao vivo simultâneas</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>Relatórios e dashboards</h3>
+        <p class="promessa">Prove o resultado com número, não com impressão.</p>
+        <p>Da transmissão isolada ao acumulado por canal: horas acompanhadas, participação, contribuições e quem volta sempre. O material que sustenta uma conversa com anunciante ou direção.</p>
+      </div>
+      <figure class="print" data-print="relatorios">
+        <img src="./assets/prints/relatorios.png" alt="Relatório consolidado de um canal com horas observadas, mensagens, pessoas alcançadas e a lista de todas as transmissões acompanhadas" loading="lazy" decoding="async">
+        <figcaption>Consolidado por canal, com todas as transmissões</figcaption>
+      </figure>
+    </article>
+    <article class="recurso">
+      <div class="texto">
+        <h3>Catálogo de vídeos</h3>
+        <p class="promessa">O acervo dos seus canais, pesquisável.</p>
+        <p>Tudo que os canais acompanhados já publicaram, organizado num lugar só — para achar aquele vídeo que você lembra vagamente, sem caçar canal por canal.</p>
+      </div>
+      <figure class="print" data-print="catalogo">
+        <img src="./assets/prints/catalogo.jpg" alt="Catálogo de vídeos publicados pelos canais acompanhados, com capa, título e descrição" loading="lazy" decoding="async">
+        <figcaption>Tudo que os canais publicaram, num lugar só</figcaption>
+      </figure>
+    </article>
+    </div>
+  </section>
+
+  <div class="conteudo">
 
   <h2>Moderação assistida</h2>
   <p>
@@ -412,9 +472,33 @@
     video.addEventListener("playing", function () {
       video.classList.add("tocando");
     });
-    // Ao terminar, congela no último quadro em vez de voltar ao preto.
+
+    // Ao terminar, espera 10s e roda de novo. A pausa é o ponto: em loop
+    // contínuo a vinheta vira ruído atrás do texto; espaçada, ela reaparece
+    // como respiro. O último quadro fica na tela durante a espera, então
+    // nunca há um retângulo preto.
+    var ESPERA_ENTRE_LOOPS_MS = 10000;
+    var reinicio = null;
     video.addEventListener("ended", function () {
       video.classList.add("tocando");
+      clearTimeout(reinicio);
+      reinicio = setTimeout(function () {
+        video.currentTime = 0;
+        var t = video.play();
+        if (t && typeof t.catch === "function") t.catch(function () {});
+      }, ESPERA_ENTRE_LOOPS_MS);
+    });
+
+    // Aba escondida não precisa de vinheta rodando — economiza bateria e
+    // não deixa um timer disparando play em segundo plano.
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        clearTimeout(reinicio);
+        video.pause();
+      } else if (video.ended || video.paused) {
+        var t = video.play();
+        if (t && typeof t.catch === "function") t.catch(function () {});
+      }
     });
 
     var tentativa = video.play();
