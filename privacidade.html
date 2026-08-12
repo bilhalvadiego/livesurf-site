@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiveSurf — Política de Privacidade / Privacy Policy</title>
+<style>
+  :root{
+    --fundo:#ffffff; --texto:#1a1a1a; --suave:#5a5a5a; --linha:#e3e3e3;
+    --destaque:#0b5fff; --caixa:#f7f8fa;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --fundo:#14161a; --texto:#e8e8e8; --suave:#a0a4ab; --linha:#2a2e35;
+      --destaque:#6ea8ff; --caixa:#1b1e24;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:2rem 1.25rem 4rem; background:var(--fundo); color:var(--texto);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  main{max-width:52rem; margin:0 auto}
+  h1{font-size:1.75rem; margin:0 0 .25rem}
+  h2{font-size:1.15rem; margin:2.5rem 0 .75rem; padding-bottom:.4rem; border-bottom:1px solid var(--linha)}
+  h3{font-size:1rem; margin:1.5rem 0 .5rem}
+  p,li{color:var(--texto)}
+  .sub{color:var(--suave); margin:0 0 2rem; font-size:.95rem}
+  a{color:var(--destaque)}
+  table{width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem; display:block; overflow-x:auto}
+  th,td{text-align:left; padding:.6rem .7rem; border-bottom:1px solid var(--linha); vertical-align:top}
+  th{font-weight:600}
+  .caixa{background:var(--caixa); border:1px solid var(--linha); border-radius:.6rem; padding:1rem 1.15rem; margin:1.25rem 0}
+  .idioma{display:flex; gap:.5rem; margin-bottom:2rem; flex-wrap:wrap}
+  .idioma a{
+    text-decoration:none; border:1px solid var(--linha); border-radius:2rem;
+    padding:.35rem .9rem; font-size:.85rem; color:var(--texto)
+  }
+  footer{margin-top:3rem; padding-top:1.25rem; border-top:1px solid var(--linha); color:var(--suave); font-size:.88rem}
+  code{background:var(--caixa); padding:.1rem .35rem; border-radius:.25rem; font-size:.9em}
+</style>
+</head>
+<body>
+<main>
+
+  <h1>LiveSurf — Política de Privacidade</h1>
+  <p class="sub">Última atualização: 12 de agosto de 2026 · <em>English version below</em></p>
+
+  <div class="idioma">
+    <a href="#pt">🇧🇷 Português</a>
+    <a href="#en">🇺🇸 English</a>
+    <a href="./">← Sobre o LiveSurf</a>
+  </div>
+
+  <section id="pt">
+
+    <div class="caixa">
+      <strong>Resumo honesto.</strong> O LiveSurf é uma ferramenta profissional
+      de monitoramento de transmissões ao vivo, oferecida por assinatura. Os
+      dados que ele guarda existem para uma coisa só: montar os relatórios de
+      audiência das transmissões que o próprio assinante escolhe acompanhar.
+      <strong>Nenhum dado é vendido, revendido ou compartilhado com terceiros
+      para fins publicitários</strong>, e o dado bruto obtido do YouTube nunca é
+      comercializado como produto.
+    </div>
+
+    <h2>1. Quem opera este aplicativo</h2>
+    <p>
+      O LiveSurf é desenvolvido e operado por Diego Vieira Bilhalva, como
+      desenvolvedor independente. O acesso administrativo aos dados é restrito
+      ao operador; não há terceiros com acesso administrativo.
+    </p>
+
+    <h2>2. O que é coletado</h2>
+
+    <h3>2.1 Dados da sua conta</h3>
+    <table>
+      <tr><th>Dado</th><th>Para quê</th><th>Retenção</th></tr>
+      <tr>
+        <td>Endereço de e-mail</td>
+        <td>Autenticação (login) e sincronização das suas preferências entre aparelhos</td>
+        <td>Enquanto a conta existir</td>
+      </tr>
+      <tr>
+        <td>Lista de canais que você acompanha</td>
+        <td>Montar o mosaico de transmissões e saber o que monitorar</td>
+        <td>Enquanto a conta existir</td>
+      </tr>
+      <tr>
+        <td>Preferências do aplicativo</td>
+        <td>Manter a mesma configuração em todos os seus aparelhos</td>
+        <td>Enquanto a conta existir</td>
+      </tr>
+      <tr>
+        <td>Token de notificação do aparelho</td>
+        <td>Avisar quando um canal favorito entra ao vivo</td>
+        <td>Até você desinstalar ou revogar a permissão</td>
+      </tr>
+    </table>
+
+    <h3>2.2 Chat público de transmissões ao vivo</h3>
+    <p>
+      Quando você <strong>ativa a vigia</strong> de uma transmissão específica, o
+      LiveSurf coleta as mensagens públicas daquele chat ao vivo, através da
+      YouTube Data API. São coletados:
+    </p>
+    <ul>
+      <li>identificador da mensagem e do canal de quem escreveu;</li>
+      <li>nome de exibição público de quem escreveu;</li>
+      <li>texto da mensagem;</li>
+      <li>tipo e valor de contribuições (Super Chat, Super Sticker, adesão a membro);</li>
+      <li>marcações públicas de membro e de moderador do canal.</li>
+    </ul>
+    <p>
+      <strong>Só mensagens públicas.</strong> O LiveSurf não acessa mensagens
+      privadas, não acessa a conta do YouTube de terceiros, e não coleta nada de
+      transmissões que você não escolheu monitorar.
+    </p>
+
+    <h3>2.3 Localização</h3>
+    <p>
+      A localização aproximada do aparelho é lida <strong>apenas</strong> quando
+      você abre a previsão do tempo, e apenas para consultar a previsão daquela
+      região. Ela é usada no momento da consulta e <strong>não é armazenada</strong>
+      pelo LiveSurf.
+    </p>
+
+    <h3>2.4 Dados de assinatura</h3>
+    <p>
+      O LiveSurf é oferecido por assinatura. Dados de contratação (razão social,
+      contato responsável e vigência do plano) são guardados enquanto durar a
+      relação comercial e pelo prazo legal de guarda fiscal. <strong>O
+      processamento de pagamento é feito fora do aplicativo</strong>; o LiveSurf
+      não armazena número de cartão nem credencial bancária.
+    </p>
+
+    <h2>3. Por quanto tempo os dados ficam guardados</h2>
+    <table>
+      <tr><th>Dado</th><th>Prazo</th></tr>
+      <tr><td>Mensagens de chat coletadas</td><td>90 dias, depois apagadas automaticamente</td></tr>
+      <tr><td>Sinais de ritmo de chat</td><td>7 dias</td></tr>
+      <tr><td>Registros de vigias encerradas</td><td>7 dias</td></tr>
+      <tr><td>Dados da conta e preferências</td><td>Enquanto a conta existir</td></tr>
+    </table>
+    <p>
+      A limpeza é automática e roda diariamente — não depende de ação manual.
+    </p>
+
+    <h2>4. Serviços de terceiros</h2>
+    <p>O LiveSurf depende dos seguintes serviços para funcionar:</p>
+    <table>
+      <tr><th>Serviço</th><th>O que recebe</th></tr>
+      <tr>
+        <td><strong>YouTube Data API</strong> (Google)</td>
+        <td>Consultas sobre transmissões e chats públicos dos canais monitorados</td>
+      </tr>
+      <tr>
+        <td><strong>Supabase</strong></td>
+        <td>Banco de dados e autenticação — é onde os dados descritos acima ficam</td>
+      </tr>
+      <tr>
+        <td><strong>Firebase Cloud Messaging</strong> (Google)</td>
+        <td>Token do aparelho, para entregar as notificações</td>
+      </tr>
+      <tr>
+        <td><strong>DeepSeek</strong></td>
+        <td>
+          Nome de exibição e texto das mensagens de chat, quando você pede a
+          classificação por inteligência artificial (detecção de discurso de ódio
+          e de postura). Enviado apenas sob solicitação explícita sua.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Open-Meteo</strong></td>
+        <td>Coordenadas aproximadas, apenas quando você abre a previsão do tempo</td>
+      </tr>
+    </table>
+
+    <h2>5. Uso da YouTube API Services</h2>
+    <p>
+      O LiveSurf utiliza os <strong>YouTube API Services</strong>. Ao usar este
+      aplicativo, você também está sujeito a:
+    </p>
+    <ul>
+      <li><a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Termos de Serviço do YouTube</a></li>
+      <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade do Google</a></li>
+    </ul>
+    <p>
+      Você pode revogar o acesso do LiveSurf aos seus dados do Google a qualquer
+      momento pela
+      <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">página de permissões da sua Conta do Google</a>.
+    </p>
+    <p>
+      <strong>Todo vídeo é reproduzido pelo player oficial do YouTube.</strong> O
+      LiveSurf não baixa, não re-hospeda, não retransmite e não recodifica vídeo,
+      e não remove nem oculta anúncios ou marca do YouTube.
+    </p>
+
+    <h2>6. O que o LiveSurf não faz</h2>
+    <ul>
+      <li>Não vende, aluga nem compartilha dados com anunciantes ou corretores de dados.</li>
+      <li>Não exibe publicidade própria.</li>
+      <li>Não usa os dados coletados para perfilamento publicitário.</li>
+      <li>Não coleta dados de menores de idade de forma intencional.</li>
+      <li>Não acessa contas de terceiros nem conteúdo privado.</li>
+    </ul>
+
+    <h2>7. Seus direitos</h2>
+    <p>
+      Conforme a Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018), você
+      pode solicitar acesso, correção, portabilidade ou exclusão dos seus dados,
+      além da revogação do consentimento. Basta escrever para o contato abaixo — o
+      pedido é atendido em até 15 dias.
+    </p>
+    <p>
+      A exclusão da conta apaga também os dados associados a ela. Mensagens de
+      chat já coletadas seguem o prazo automático de 90 dias.
+    </p>
+
+    <h2>7.1 Papéis no tratamento de dados</h2>
+    <p>
+      Em relação aos dados de conta do assinante, o LiveSurf atua como
+      <strong>controlador</strong>. Em relação às mensagens públicas de chat
+      coletadas por determinação do assinante, o LiveSurf atua como
+      <strong>operador</strong>: a decisão sobre quais transmissões monitorar é
+      do assinante, e é ele quem define a finalidade daquela coleta.
+    </p>
+
+    <h2>8. Segurança</h2>
+    <p>
+      O acesso ao banco de dados é protegido por autenticação e por políticas de
+      segurança em nível de linha (<em>Row Level Security</em>), que restringem
+      cada registro ao seu dono. As chaves de API sensíveis ficam apenas no
+      servidor, nunca no aplicativo distribuído.
+    </p>
+
+    <h2>9. Alterações nesta política</h2>
+    <p>
+      Mudanças relevantes serão publicadas nesta mesma página, com a data de
+      atualização revisada no topo.
+    </p>
+
+    <h2>10. Contato</h2>
+    <p>
+      Diego Vieira Bilhalva —
+      <a href="mailto:diego.bilhalva@gmail.com">diego.bilhalva@gmail.com</a>
+    </p>
+
+  </section>
+
+  <hr style="margin:4rem 0; border:0; border-top:1px solid var(--linha)">
+
+  <section id="en">
+
+    <h1>LiveSurf — Privacy Policy</h1>
+    <p class="sub">Last updated: August 12, 2026</p>
+
+    <div class="caixa">
+      <strong>Plain summary.</strong> LiveSurf is a professional live-broadcast
+      monitoring tool offered on a subscription basis. The data it stores exists
+      for one purpose: producing audience reports for the broadcasts each
+      subscriber chooses to monitor. <strong>No data is sold, resold, or shared
+      with third parties for advertising purposes</strong>, and raw data obtained
+      from YouTube is never commercialized as a product.
+    </div>
+
+    <h2>1. Who operates this application</h2>
+    <p>
+      LiveSurf is developed and operated by Diego Vieira Bilhalva as an
+      independent developer. Administrative access to data is restricted to the
+      operator; no third parties hold administrative access.
+    </p>
+
+    <h2>2. What is collected</h2>
+
+    <h3>2.1 Account data</h3>
+    <table>
+      <tr><th>Data</th><th>Purpose</th><th>Retention</th></tr>
+      <tr><td>Email address</td><td>Authentication and syncing preferences across devices</td><td>While the account exists</td></tr>
+      <tr><td>List of followed channels</td><td>Building the broadcast grid and knowing what to monitor</td><td>While the account exists</td></tr>
+      <tr><td>Application preferences</td><td>Keeping the same setup across devices</td><td>While the account exists</td></tr>
+      <tr><td>Device push token</td><td>Notifying when a favorite channel goes live</td><td>Until uninstall or permission revocation</td></tr>
+    </table>
+
+    <h3>2.2 Public live chat</h3>
+    <p>
+      When you <strong>enable monitoring</strong> for a specific broadcast,
+      LiveSurf collects that broadcast's public live chat messages through the
+      YouTube Data API: message and author channel identifiers, public display
+      name, message text, contribution type and value (Super Chat, Super Sticker,
+      membership), and public member/moderator flags.
+    </p>
+    <p>
+      <strong>Public messages only.</strong> LiveSurf does not access private
+      messages, does not access third-party YouTube accounts, and collects
+      nothing from broadcasts you did not choose to monitor.
+    </p>
+
+    <h3>2.3 Location</h3>
+    <p>
+      Approximate device location is read <strong>only</strong> when you open the
+      weather feature, solely to fetch the local forecast. It is used at request
+      time and is <strong>not stored</strong> by LiveSurf.
+    </p>
+
+    <h3>2.4 Subscription data</h3>
+    <p>
+      LiveSurf is offered on a subscription basis. Contracting data (legal
+      entity, responsible contact, and plan term) is retained for the duration of
+      the commercial relationship and any legally required accounting period.
+      <strong>Payment processing occurs outside the application</strong>;
+      LiveSurf stores no card numbers or banking credentials.
+    </p>
+
+    <h2>3. Data retention</h2>
+    <table>
+      <tr><th>Data</th><th>Period</th></tr>
+      <tr><td>Collected chat messages</td><td>90 days, then automatically deleted</td></tr>
+      <tr><td>Chat pace signals</td><td>7 days</td></tr>
+      <tr><td>Closed monitoring session records</td><td>7 days</td></tr>
+      <tr><td>Account data and preferences</td><td>While the account exists</td></tr>
+    </table>
+    <p>Cleanup is automatic and runs daily.</p>
+
+    <h2>4. Third-party services</h2>
+    <table>
+      <tr><th>Service</th><th>What it receives</th></tr>
+      <tr><td><strong>YouTube Data API</strong> (Google)</td><td>Queries about broadcasts and public chats of monitored channels</td></tr>
+      <tr><td><strong>Supabase</strong></td><td>Database and authentication — where the data above is stored</td></tr>
+      <tr><td><strong>Firebase Cloud Messaging</strong> (Google)</td><td>Device token, to deliver notifications</td></tr>
+      <tr><td><strong>DeepSeek</strong></td><td>Display name and message text, when you explicitly request AI classification (hate-speech and stance detection). Sent only on explicit request.</td></tr>
+      <tr><td><strong>Open-Meteo</strong></td><td>Approximate coordinates, only when you open the weather feature</td></tr>
+    </table>
+
+    <h2>5. YouTube API Services</h2>
+    <p>LiveSurf uses <strong>YouTube API Services</strong>. By using this application you are also subject to:</p>
+    <ul>
+      <li><a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a></li>
+      <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+    </ul>
+    <p>
+      You may revoke LiveSurf's access to your Google data at any time via the
+      <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google Account permissions page</a>.
+    </p>
+    <p>
+      <strong>All video playback occurs through the official YouTube player.</strong>
+      LiveSurf does not download, re-host, proxy, or re-encode video, and does not
+      remove or obscure YouTube advertising or branding.
+    </p>
+
+    <h2>6. What LiveSurf does not do</h2>
+    <ul>
+      <li>Does not sell, rent, or share data with advertisers or data brokers.</li>
+      <li>Does not display its own advertising.</li>
+      <li>Does not use collected data for advertising profiling.</li>
+      <li>Does not knowingly collect data from minors.</li>
+      <li>Does not access third-party accounts or private content.</li>
+    </ul>
+
+    <h2>7. Your rights</h2>
+    <p>
+      Under Brazil's General Data Protection Law (LGPD, Law 13.709/2018) you may
+      request access, correction, portability, or deletion of your data, and may
+      withdraw consent. Write to the contact below — requests are handled within
+      15 days. Deleting your account also deletes its associated data.
+    </p>
+
+    <h2>7.1 Data processing roles</h2>
+    <p>
+      With respect to subscriber account data, LiveSurf acts as
+      <strong>controller</strong>. With respect to public chat messages collected
+      at the subscriber's direction, LiveSurf acts as <strong>processor</strong>:
+      the decision of which broadcasts to monitor belongs to the subscriber, who
+      defines the purpose of that collection.
+    </p>
+
+    <h2>8. Security</h2>
+    <p>
+      Database access is protected by authentication and Row Level Security
+      policies restricting each record to its owner. Sensitive API keys live only
+      on the server, never in the distributed application.
+    </p>
+
+    <h2>9. Changes to this policy</h2>
+    <p>Material changes will be published on this page with a revised date at the top.</p>
+
+    <h2>10. Contact</h2>
+    <p>Diego Vieira Bilhalva — <a href="mailto:diego.bilhalva@gmail.com">diego.bilhalva@gmail.com</a></p>
+
+  </section>
+
+  <footer>
+    LiveSurf · Ferramenta independente de monitoramento de transmissões ao vivo.
+    Não afiliada ao YouTube ou ao Google.
+  </footer>
+
+</main>
+</body>
+</html>

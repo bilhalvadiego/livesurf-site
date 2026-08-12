@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiveSurf — Monitoramento de transmissões ao vivo</title>
+<meta name="description" content="Ferramenta independente de monitoramento e análise de transmissões ao vivo do YouTube.">
+<style>
+  :root{
+    --fundo:#ffffff; --texto:#1a1a1a; --suave:#5a5a5a; --linha:#e3e3e3;
+    --destaque:#0b5fff; --caixa:#f7f8fa;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --fundo:#14161a; --texto:#e8e8e8; --suave:#a0a4ab; --linha:#2a2e35;
+      --destaque:#6ea8ff; --caixa:#1b1e24;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:2.5rem 1.25rem 4rem; background:var(--fundo); color:var(--texto);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  main{max-width:52rem; margin:0 auto}
+  h1{font-size:2rem; margin:0 0 .5rem; letter-spacing:-.02em}
+  h2{font-size:1.15rem; margin:2.5rem 0 .75rem; padding-bottom:.4rem; border-bottom:1px solid var(--linha)}
+  h3{font-size:1rem; margin:1.5rem 0 .35rem}
+  .sub{color:var(--suave); font-size:1.05rem; margin:0 0 2rem}
+  a{color:var(--destaque)}
+  .caixa{background:var(--caixa); border:1px solid var(--linha); border-radius:.6rem; padding:1rem 1.15rem; margin:1.25rem 0}
+  .grade{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); margin:1.25rem 0}
+  .card{border:1px solid var(--linha); border-radius:.6rem; padding:1rem 1.15rem}
+  .card h3{margin-top:0}
+  .card p{margin:0; color:var(--suave); font-size:.93rem}
+  table{width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem; display:block; overflow-x:auto}
+  th,td{text-align:left; padding:.6rem .7rem; border-bottom:1px solid var(--linha); vertical-align:top}
+  ul{padding-left:1.2rem}
+  li{margin:.3rem 0}
+  footer{margin-top:3.5rem; padding-top:1.25rem; border-top:1px solid var(--linha); color:var(--suave); font-size:.88rem}
+  .selo{
+    display:inline-block; font-size:.78rem; color:var(--suave);
+    border:1px solid var(--linha); border-radius:2rem; padding:.25rem .8rem; margin-bottom:1.25rem
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <span class="selo">Produto por assinatura · Monitoramento profissional de mídia</span>
+
+  <h1>LiveSurf</h1>
+  <p class="sub">
+    Plataforma de monitoramento e análise de transmissões ao vivo do YouTube,
+    para redações, produtoras e equipes de moderação que precisam acompanhar
+    várias transmissões ao mesmo tempo e entender a audiência de cada uma.
+  </p>
+
+  <div class="caixa">
+    <strong>O que é.</strong> O LiveSurf reúne, numa só tela, as transmissões ao
+    vivo dos canais que o assinante acompanha — e, nas transmissões que ele
+    escolhe monitorar, analisa o chat ao vivo para produzir relatórios de
+    participação da audiência. Toda reprodução de vídeo acontece pelo player
+    oficial do YouTube.
+  </div>
+
+  <h2>Para que serve</h2>
+
+  <div class="grade">
+    <div class="card">
+      <h3>Mosaico ao vivo</h3>
+      <p>
+        Acompanha várias transmissões simultâneas na mesma tela, com áudio de uma
+        por vez, para monitorar a cobertura de um mesmo assunto em canais
+        diferentes.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Vigia de chat</h3>
+      <p>
+        Coleta o chat público de uma transmissão escolhida e transforma em
+        relatório: quem participou, contribuições, moderadores e picos de
+        atividade.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Moderação assistida</h3>
+      <p>
+        Sinaliza automaticamente mensagens candidatas a discurso de ódio para
+        revisão humana. A ferramenta levanta a mão; quem decide é a pessoa.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Relatórios por canal</h3>
+      <p>
+        Consolida todas as transmissões monitoradas de um canal: horas
+        acompanhadas, volume de mensagens e participantes recorrentes.
+      </p>
+    </div>
+  </div>
+
+  <h2>Como usa a YouTube Data API</h2>
+
+  <table>
+    <tr><th>Endpoint</th><th>Para quê</th><th>Frequência</th></tr>
+    <tr>
+      <td><code>videos.list</code></td>
+      <td>Descobrir quais canais acompanhados estão ao vivo agora e confirmar o estado da transmissão</td>
+      <td>A cada 5 minutos, em lotes de até 50 IDs por chamada</td>
+    </tr>
+    <tr>
+      <td><code>liveChat/messages.list</code></td>
+      <td>Coletar o chat público das transmissões que o usuário escolheu monitorar</td>
+      <td>A cada 3 minutos por transmissão ativa</td>
+    </tr>
+    <tr>
+      <td><code>search.list</code></td>
+      <td>Resolver qual transmissão está no ar em um canal, quando o usuário o abre</td>
+      <td>Sob demanda, com cache por canal compartilhado</td>
+    </tr>
+  </table>
+
+  <h3>Decisões de projeto que economizam cota</h3>
+  <ul>
+    <li>
+      <strong>Coleta de chat a cada 3 minutos, não a cada minuto.</strong> Cada
+      mensagem carrega seu próprio horário de publicação, então intervalos
+      maiores não perdem precisão nenhuma — só reduzem o consumo.
+    </li>
+    <li>
+      <strong>Lotes de 50 IDs por chamada.</strong> Pedir 1 ou 50 vídeos custa o
+      mesmo, então nunca é pedido um de cada vez.
+    </li>
+    <li>
+      <strong>Cache no servidor, compartilhado entre usuários.</strong> Não é
+      cache por usuário: dois aparelhos consultando o mesmo canal gastam uma
+      chamada só.
+    </li>
+    <li>
+      <strong>Canal offline também é cacheado.</strong> Evita repetir a consulta
+      para quem não está transmitindo.
+    </li>
+  </ul>
+
+  <h2>Conformidade</h2>
+  <ul>
+    <li>Todo vídeo é reproduzido pelo <strong>player oficial do YouTube</strong>.</li>
+    <li>Nenhum vídeo é baixado, re-hospedado, retransmitido ou recodificado.</li>
+    <li>Anúncios e marca do YouTube nunca são removidos ou ocultados.</li>
+    <li>Apenas chat <strong>público</strong> é coletado, e só das transmissões escolhidas pelo usuário.</li>
+    <li>Mensagens coletadas são apagadas automaticamente após 90 dias.</li>
+    <li>Nenhum dado é vendido, alugado ou compartilhado com anunciantes.</li>
+  </ul>
+
+  <p>
+    O LiveSurf utiliza os YouTube API Services. Aplicam-se os
+    <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Termos de Serviço do YouTube</a>
+    e a
+    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade do Google</a>.
+  </p>
+
+  <h2>Distribuição e modelo comercial</h2>
+  <p>
+    O LiveSurf é oferecido por <strong>assinatura recorrente</strong> a clientes
+    contratantes. Não há cadastro aberto ao público nem publicação em loja de
+    aplicativos: o acesso é liberado mediante contratação. Roda em Android e
+    desktop (Windows).
+  </p>
+  <div class="caixa">
+    <strong>O que é cobrado — e o que não é.</strong> A assinatura remunera o
+    <em>software</em>: a interface de monitoramento simultâneo, a coleta e
+    consolidação do chat, os relatórios e a triagem assistida de moderação.
+    <strong>Dados obtidos da YouTube Data API não são vendidos, revendidos nem
+    licenciados como produto</strong> — nem em forma bruta, nem em exportação
+    destinada a terceiros. O que o assinante leva é a análise da audiência das
+    transmissões que ele mesmo escolheu monitorar.
+  </div>
+
+  <h2>Documentos e contato</h2>
+  <p>
+    <a href="./privacidade.html"><strong>Política de Privacidade</strong></a> ·
+    <a href="./termos.html"><strong>Termos de Serviço</strong></a> ·
+    Diego Vieira Bilhalva —
+    <a href="mailto:diego.bilhalva@gmail.com">diego.bilhalva@gmail.com</a>
+  </p>
+
+  <footer>
+    LiveSurf · Ferramenta independente de monitoramento de transmissões ao vivo.
+    Não afiliada ao YouTube ou ao Google. YouTube é marca registrada do Google LLC.
+  </footer>
+
+</main>
+</body>
+</html>
