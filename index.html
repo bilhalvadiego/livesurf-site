@@ -4,190 +4,265 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LiveSurf — Monitoramento de transmissões ao vivo</title>
-<meta name="description" content="Ferramenta independente de monitoramento e análise de transmissões ao vivo do YouTube.">
+<meta name="description" content="Plataforma de monitoramento e análise de transmissões ao vivo do YouTube, para redações, produtoras e equipes de moderação.">
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./assets/apple-touch-icon-180.png">
+<link rel="stylesheet" href="./assets/marca.css">
 <style>
-  :root{
-    --fundo:#ffffff; --texto:#1a1a1a; --suave:#5a5a5a; --linha:#e3e3e3;
-    --destaque:#0b5fff; --caixa:#f7f8fa;
+  /* ---- abertura: a vinheta da marca ---- */
+  .abertura{
+    position:relative;
+    min-height:min(78vh,40rem);
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    background:var(--ink);
+    border-bottom:1px solid var(--ink-3);
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --fundo:#14161a; --texto:#e8e8e8; --suave:#a0a4ab; --linha:#2a2e35;
-      --destaque:#6ea8ff; --caixa:#1b1e24;
-    }
+  .abertura video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity .8s ease;
   }
-  *{box-sizing:border-box}
-  body{
-    margin:0; padding:2.5rem 1.25rem 4rem; background:var(--fundo); color:var(--texto);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  .abertura video.tocando{opacity:.5}
+  /* Véu: mantém o texto legível por cima do vídeo em qualquer quadro. */
+  .abertura::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom, rgba(11,11,15,.55), rgba(11,11,15,.9));
   }
-  main{max-width:52rem; margin:0 auto}
-  h1{font-size:2rem; margin:0 0 .5rem; letter-spacing:-.02em}
-  h2{font-size:1.15rem; margin:2.5rem 0 .75rem; padding-bottom:.4rem; border-bottom:1px solid var(--linha)}
-  h3{font-size:1rem; margin:1.5rem 0 .35rem}
-  .sub{color:var(--suave); font-size:1.05rem; margin:0 0 2rem}
-  a{color:var(--destaque)}
-  .caixa{background:var(--caixa); border:1px solid var(--linha); border-radius:.6rem; padding:1rem 1.15rem; margin:1.25rem 0}
-  .grade{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); margin:1.25rem 0}
-  .card{border:1px solid var(--linha); border-radius:.6rem; padding:1rem 1.15rem}
-  .card h3{margin-top:0}
-  .card p{margin:0; color:var(--suave); font-size:.93rem}
-  table{width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem; display:block; overflow-x:auto}
-  th,td{text-align:left; padding:.6rem .7rem; border-bottom:1px solid var(--linha); vertical-align:top}
-  ul{padding-left:1.2rem}
-  li{margin:.3rem 0}
-  footer{margin-top:3.5rem; padding-top:1.25rem; border-top:1px solid var(--linha); color:var(--suave); font-size:.88rem}
+  .marca{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.25rem;
+    text-align:center;
+    padding:3rem 1.5rem;
+    max-width:38rem;
+  }
+  .marca svg{width:clamp(4.5rem,12vw,6.5rem);height:auto}
+  .marca h1{margin:0;font-size:clamp(2.4rem,7vw,4rem)}
+  .marca .promessa{
+    margin:0;
+    color:var(--paper);
+    opacity:.85;
+    font-size:clamp(1rem,2.4vw,1.2rem);
+    max-width:32rem;
+  }
   .selo{
-    display:inline-block; font-size:.78rem; color:var(--suave);
-    border:1px solid var(--linha); border-radius:2rem; padding:.25rem .8rem; margin-bottom:1.25rem
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  /* ---- o que o produto faz ---- */
+  .recursos{
+    display:grid;
+    gap:1px;
+    grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+    background:var(--ink-3);
+    border:1px solid var(--ink-3);
+    margin:1.5rem 0;
+  }
+  .recurso{background:var(--ink);padding:1.25rem 1.35rem;display:flex;flex-direction:column;gap:.4rem}
+  .recurso h3{margin:0}
+  .recurso p{margin:0;color:var(--muted);font-size:.93rem}
+
+  .plataformas{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    margin:1rem 0 0;
+    list-style:none;
+    padding:0;
+  }
+  .plataformas li{
+    border:1px solid var(--ink-3);
+    border-radius:2rem;
+    padding:.3rem .85rem;
+    font-size:.85rem;
+    color:var(--muted);
   }
 </style>
 </head>
 <body>
-<main>
 
-  <span class="selo">Produto por assinatura · Monitoramento profissional de mídia</span>
+<header class="abertura">
+  <video id="vinheta" muted playsinline preload="metadata" aria-hidden="true">
+    <source src="./assets/vinheta.mp4" type="video/mp4">
+  </video>
 
-  <h1>LiveSurf</h1>
-  <p class="sub">
-    Plataforma de monitoramento e análise de transmissões ao vivo do YouTube,
-    para redações, produtoras e equipes de moderação que precisam acompanhar
-    várias transmissões ao mesmo tempo e entender a audiência de cada uma.
-  </p>
+  <div class="marca">
+    <svg viewBox="0 0 512 512" role="img" aria-label="LiveSurf">
+      <g transform="translate(0,-23)">
+        <path fill="#e8462c" d="M 6.00,372.53 L 8.50,371.59 L 13.50,370.09 L 18.50,368.68 L 23.50,367.27 L 28.50,365.84 L 33.50,364.37 L 38.50,362.84 L 43.50,361.25 L 48.50,359.58 L 53.50,357.84 L 58.50,356.02 L 63.50,354.12 L 68.50,352.14 L 73.50,350.08 L 78.50,347.94 L 83.50,345.72 L 88.50,343.43 L 93.50,341.07 L 98.50,338.64 L 103.50,336.16 L 108.50,333.62 L 113.50,331.04 L 118.50,328.42 L 123.50,325.77 L 128.50,323.09 L 133.50,320.41 L 138.50,317.71 L 143.50,315.02 L 148.50,312.35 L 153.50,309.70 L 158.50,307.08 L 163.50,304.51 L 168.50,301.99 L 173.50,299.53 L 178.50,297.15 L 183.50,294.85 L 188.50,292.65 L 193.50,290.54 L 198.50,288.55 L 203.50,286.68 L 208.50,284.94 L 213.50,283.33 L 218.50,281.87 L 223.50,280.55 L 228.50,279.39 L 233.50,278.40 L 238.50,277.56 L 243.50,276.90 L 248.50,276.41 L 253.50,276.09 L 258.50,275.95 L 263.50,275.99 L 268.50,276.21 L 273.50,276.61 L 278.50,277.20 L 283.50,277.96 L 288.50,278.91 L 293.50,280.04 L 298.50,281.35 L 303.50,282.83 L 308.50,284.48 L 313.50,286.30 L 318.50,288.27 L 323.50,290.40 L 328.50,292.66 L 333.50,295.07 L 338.50,297.60 L 343.50,300.25 L 348.50,303.01 L 353.50,305.87 L 358.50,308.82 L 363.50,311.84 L 368.50,314.92 L 373.50,318.06 L 378.50,321.24 L 383.50,324.45 L 388.50,327.68 L 393.50,330.92 L 398.50,334.14 L 403.50,337.35 L 408.50,340.53 L 413.50,343.67 L 418.50,346.76 L 423.50,349.79 L 428.50,352.74 L 433.50,355.62 L 438.50,358.40 L 443.50,361.09 L 448.50,363.68 L 453.50,366.16 L 458.50,368.52 L 463.50,370.77 L 468.50,372.90 L 473.50,374.91 L 478.50,376.80 L 483.50,378.58 L 488.50,380.26 L 493.50,381.84 L 498.50,383.37 L 503.50,384.92 L 506.00,385.85 L 503.50,387.53 L 498.50,390.28 L 493.50,392.59 L 488.50,394.54 L 483.50,396.16 L 478.50,397.47 L 473.50,398.48 L 468.50,399.21 L 463.50,399.67 L 458.50,399.86 L 453.50,399.80 L 448.50,399.49 L 443.50,398.96 L 438.50,398.20 L 433.50,397.23 L 428.50,396.06 L 423.50,394.72 L 418.50,393.20 L 413.50,391.52 L 408.50,389.71 L 403.50,387.76 L 398.50,385.71 L 393.50,383.55 L 388.50,381.31 L 383.50,379.00 L 378.50,376.64 L 373.50,374.24 L 368.50,371.81 L 363.50,369.38 L 358.50,366.96 L 353.50,364.55 L 348.50,362.18 L 343.50,359.86 L 338.50,357.59 L 333.50,355.41 L 328.50,353.30 L 323.50,351.30 L 318.50,349.40 L 313.50,347.62 L 308.50,345.96 L 303.50,344.45 L 298.50,343.08 L 293.50,341.85 L 288.50,340.79 L 283.50,339.89 L 278.50,339.16 L 273.50,338.59 L 268.50,338.20 L 263.50,337.99 L 258.50,337.95 L 253.50,338.09 L 248.50,338.41 L 243.50,338.89 L 238.50,339.54 L 233.50,340.35 L 228.50,341.32 L 223.50,342.43 L 218.50,343.68 L 213.50,345.06 L 208.50,346.56 L 203.50,348.16 L 198.50,349.87 L 193.50,351.67 L 188.50,353.55 L 183.50,355.49 L 178.50,357.48 L 173.50,359.52 L 168.50,361.59 L 163.50,363.67 L 158.50,365.76 L 153.50,367.84 L 148.50,369.89 L 143.50,371.91 L 138.50,373.89 L 133.50,375.80 L 128.50,377.64 L 123.50,379.40 L 118.50,381.05 L 113.50,382.61 L 108.50,384.04 L 103.50,385.34 L 98.50,386.50 L 93.50,387.51 L 88.50,388.36 L 83.50,389.04 L 78.50,389.55 L 73.50,389.87 L 68.50,390.00 L 63.50,389.93 L 58.50,389.66 L 53.50,389.18 L 48.50,388.48 L 43.50,387.56 L 38.50,386.42 L 33.50,385.04 L 28.50,383.42 L 23.50,381.55 L 18.50,379.42 L 13.50,377.00 L 8.50,374.21 L 6.00,372.53 Z"/>
+        <path fill="#f5f3ee" d="M 216.20,140.31 A 26.00,26.00 0 0 0 178.00,163.27 L 178.00,278.73 A 26.00,26.00 0 0 0 216.20,301.69 L 324.81,243.96 A 26.00,26.00 0 0 0 324.81,198.04 Z"/>
+      </g>
+    </svg>
+
+    <h1>LiveSurf</h1>
+
+    <p class="promessa">
+      Acompanhe várias transmissões ao vivo na mesma tela — e entenda quem
+      está do outro lado.
+    </p>
+
+    <span class="selo">Monitoramento profissional de mídia</span>
+  </div>
+</header>
+
+<main class="conteudo">
+
+  <nav class="navegacao" aria-label="Documentos">
+    <a href="./privacidade.html">Política de Privacidade</a>
+    <a href="./termos.html">Termos de Serviço</a>
+    <a href="mailto:contato@livesurf.app">Falar com a gente</a>
+  </nav>
 
   <div class="caixa">
-    <strong>O que é.</strong> O LiveSurf reúne, numa só tela, as transmissões ao
-    vivo dos canais que o assinante acompanha — e, nas transmissões que ele
+    <strong>O que é.</strong> O LiveSurf reúne, numa só tela, as transmissões
+    ao vivo dos canais que o assinante acompanha — e, nas transmissões que ele
     escolhe monitorar, analisa o chat ao vivo para produzir relatórios de
-    participação da audiência. Toda reprodução de vídeo acontece pelo player
-    oficial do YouTube.
+    participação da audiência.
   </div>
 
-  <h2>Para que serve</h2>
+  <h2>Para quem é</h2>
+  <p>
+    Redações, produtoras e equipes de moderação que precisam acompanhar a
+    cobertura de um mesmo assunto em vários canais ao mesmo tempo, e saber o
+    que a audiência está dizendo enquanto a transmissão acontece.
+  </p>
 
-  <div class="grade">
-    <div class="card">
+  <h2>O que faz</h2>
+
+  <div class="recursos">
+    <div class="recurso">
       <h3>Mosaico ao vivo</h3>
       <p>
-        Acompanha várias transmissões simultâneas na mesma tela, com áudio de uma
-        por vez, para monitorar a cobertura de um mesmo assunto em canais
-        diferentes.
+        Várias transmissões simultâneas na mesma tela, com áudio de uma por vez.
+        A cobertura inteira de um assunto, de uma olhada só.
       </p>
     </div>
-    <div class="card">
+    <div class="recurso">
       <h3>Vigia de chat</h3>
       <p>
-        Coleta o chat público de uma transmissão escolhida e transforma em
-        relatório: quem participou, contribuições, moderadores e picos de
-        atividade.
+        O chat público de uma transmissão vira relatório: quem participou,
+        contribuições, moderadores e picos de atividade.
       </p>
     </div>
-    <div class="card">
+    <div class="recurso">
       <h3>Moderação assistida</h3>
       <p>
-        Sinaliza automaticamente mensagens candidatas a discurso de ódio para
-        revisão humana. A ferramenta levanta a mão; quem decide é a pessoa.
+        Mensagens candidatas a discurso de ódio são sinalizadas para revisão
+        humana. A ferramenta levanta a mão; quem decide é a pessoa.
       </p>
     </div>
-    <div class="card">
+    <div class="recurso">
       <h3>Relatórios por canal</h3>
       <p>
-        Consolida todas as transmissões monitoradas de um canal: horas
+        Todas as transmissões monitoradas de um canal, consolidadas: horas
         acompanhadas, volume de mensagens e participantes recorrentes.
       </p>
     </div>
   </div>
 
-  <h2>Como usa a YouTube Data API</h2>
-
-  <table>
-    <tr><th>Endpoint</th><th>Para quê</th><th>Frequência</th></tr>
-    <tr>
-      <td><code>videos.list</code></td>
-      <td>Descobrir quais canais acompanhados estão ao vivo agora e confirmar o estado da transmissão</td>
-      <td>A cada 5 minutos, em lotes de até 50 IDs por chamada</td>
-    </tr>
-    <tr>
-      <td><code>liveChat/messages.list</code></td>
-      <td>Coletar o chat público das transmissões que o usuário escolheu monitorar</td>
-      <td>A cada 3 minutos por transmissão ativa</td>
-    </tr>
-    <tr>
-      <td><code>search.list</code></td>
-      <td>Resolver qual transmissão está no ar em um canal, quando o usuário o abre</td>
-      <td>Sob demanda, com cache por canal compartilhado</td>
-    </tr>
-  </table>
-
-  <h3>Decisões de projeto que economizam cota</h3>
-  <ul>
-    <li>
-      <strong>Coleta de chat a cada 3 minutos, não a cada minuto.</strong> Cada
-      mensagem carrega seu próprio horário de publicação, então intervalos
-      maiores não perdem precisão nenhuma — só reduzem o consumo.
-    </li>
-    <li>
-      <strong>Lotes de 50 IDs por chamada.</strong> Pedir 1 ou 50 vídeos custa o
-      mesmo, então nunca é pedido um de cada vez.
-    </li>
-    <li>
-      <strong>Cache no servidor, compartilhado entre usuários.</strong> Não é
-      cache por usuário: dois aparelhos consultando o mesmo canal gastam uma
-      chamada só.
-    </li>
-    <li>
-      <strong>Canal offline também é cacheado.</strong> Evita repetir a consulta
-      para quem não está transmitindo.
-    </li>
+  <h2>Como você usa</h2>
+  <p>
+    O LiveSurf é entregue como aplicativo instalável, mediante contratação —
+    não há versão web nem cadastro aberto.
+  </p>
+  <ul class="plataformas">
+    <li>Android (APK)</li>
+    <li>Windows (instalador)</li>
   </ul>
+
+  <h2>Assinatura</h2>
+  <p>
+    O acesso é por <strong>assinatura recorrente</strong>. A assinatura remunera
+    o software: a interface de monitoramento, a consolidação do chat, os
+    relatórios e a triagem assistida de moderação.
+  </p>
+  <p>
+    Para conhecer planos e condições,
+    <a href="mailto:contato@livesurf.app">fale com a gente</a>.
+  </p>
 
   <h2>Conformidade</h2>
-  <ul>
-    <li>Todo vídeo é reproduzido pelo <strong>player oficial do YouTube</strong>.</li>
-    <li>Nenhum vídeo é baixado, re-hospedado, retransmitido ou recodificado.</li>
-    <li>Anúncios e marca do YouTube nunca são removidos ou ocultados.</li>
-    <li>Apenas chat <strong>público</strong> é coletado, e só das transmissões escolhidas pelo usuário.</li>
-    <li>Mensagens coletadas são apagadas automaticamente após 90 dias.</li>
-    <li>Nenhum dado é vendido, alugado ou compartilhado com anunciantes.</li>
-  </ul>
-
   <p>
-    O LiveSurf utiliza os YouTube API Services. Aplicam-se os
+    O LiveSurf utiliza os YouTube API Services. Toda reprodução de vídeo
+    acontece pelo player oficial do YouTube, e os dados obtidos da API
+    <strong>nunca são vendidos, revendidos ou licenciados</strong> como produto.
+  </p>
+  <p>
+    Aplicam-se os
     <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Termos de Serviço do YouTube</a>
     e a
     <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade do Google</a>.
+    Detalhes de como a API é utilizada estão em
+    <a href="./uso-da-api.html">uso da API</a>.
   </p>
 
-  <h2>Distribuição e modelo comercial</h2>
-  <p>
-    O LiveSurf é oferecido por <strong>assinatura recorrente</strong> a clientes
-    contratantes. Não há cadastro aberto ao público nem publicação em loja de
-    aplicativos: o acesso é liberado mediante contratação. Roda em Android e
-    desktop (Windows).
-  </p>
-  <div class="caixa">
-    <strong>O que é cobrado — e o que não é.</strong> A assinatura remunera o
-    <em>software</em>: a interface de monitoramento simultâneo, a coleta e
-    consolidação do chat, os relatórios e a triagem assistida de moderação.
-    <strong>Dados obtidos da YouTube Data API não são vendidos, revendidos nem
-    licenciados como produto</strong> — nem em forma bruta, nem em exportação
-    destinada a terceiros. O que o assinante leva é a análise da audiência das
-    transmissões que ele mesmo escolheu monitorar.
-  </div>
-
-  <h2>Documentos e contato</h2>
-  <p>
-    <a href="./privacidade.html"><strong>Política de Privacidade</strong></a> ·
-    <a href="./termos.html"><strong>Termos de Serviço</strong></a> ·
-    Diego Vieira Bilhalva —
-    <a href="mailto:diego.bilhalva@gmail.com">diego.bilhalva@gmail.com</a>
-  </p>
-
-  <footer>
-    LiveSurf · Ferramenta independente de monitoramento de transmissões ao vivo.
-    Não afiliada ao YouTube ou ao Google. YouTube é marca registrada do Google LLC.
+  <footer class="rodape">
+    <div>
+      <a href="./privacidade.html">Privacidade</a> ·
+      <a href="./termos.html">Termos</a> ·
+      <a href="./uso-da-api.html">Uso da API</a> ·
+      <a href="mailto:contato@livesurf.app">contato@livesurf.app</a>
+    </div>
+    <div>
+      LiveSurf · Plataforma independente de monitoramento de transmissões ao
+      vivo. Não afiliada ao YouTube ou ao Google. YouTube é marca registrada do
+      Google LLC.
+    </div>
   </footer>
 
 </main>
+
+<script>
+  // A vinheta é decoração: entra só depois de carregar e só se o aparelho
+  // deixar (autoplay bloqueado, dados economizados, movimento reduzido). Se
+  // qualquer coisa falhar, fica o fundo escuro com a marca — que já é o
+  // suficiente. O conteúdo nunca depende do vídeo para aparecer.
+  (function () {
+    var video = document.getElementById("vinheta");
+    if (!video) return;
+
+    var querMenosMovimento =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var conexao = navigator.connection || {};
+    var economizandoDados = conexao.saveData === true;
+    var conexaoLenta = /(^|-)2g$/.test(conexao.effectiveType || "");
+
+    if (querMenosMovimento || economizandoDados || conexaoLenta) {
+      video.remove();
+      return;
+    }
+
+    video.addEventListener("playing", function () {
+      video.classList.add("tocando");
+    });
+    // Ao terminar, congela no último quadro em vez de voltar ao preto.
+    video.addEventListener("ended", function () {
+      video.classList.add("tocando");
+    });
+
+    var tentativa = video.play();
+    if (tentativa && typeof tentativa.catch === "function") {
+      tentativa.catch(function () {
+        video.remove();
+      });
+    }
+  })();
+</script>
+
 </body>
 </html>

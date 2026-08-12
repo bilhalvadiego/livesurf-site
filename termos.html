@@ -4,49 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LiveSurf — Termos de Serviço / Terms of Service</title>
-<style>
-  :root{
-    --fundo:#ffffff; --texto:#1a1a1a; --suave:#5a5a5a; --linha:#e3e3e3;
-    --destaque:#0b5fff; --caixa:#f7f8fa;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --fundo:#14161a; --texto:#e8e8e8; --suave:#a0a4ab; --linha:#2a2e35;
-      --destaque:#6ea8ff; --caixa:#1b1e24;
-    }
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; padding:2rem 1.25rem 4rem; background:var(--fundo); color:var(--texto);
-    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  }
-  main{max-width:52rem; margin:0 auto}
-  h1{font-size:1.75rem; margin:0 0 .25rem}
-  h2{font-size:1.15rem; margin:2.5rem 0 .75rem; padding-bottom:.4rem; border-bottom:1px solid var(--linha)}
-  .sub{color:var(--suave); margin:0 0 2rem; font-size:.95rem}
-  a{color:var(--destaque)}
-  .caixa{background:var(--caixa); border:1px solid var(--linha); border-radius:.6rem; padding:1rem 1.15rem; margin:1.25rem 0}
-  .idioma{display:flex; gap:.5rem; margin-bottom:2rem; flex-wrap:wrap}
-  .idioma a{
-    text-decoration:none; border:1px solid var(--linha); border-radius:2rem;
-    padding:.35rem .9rem; font-size:.85rem; color:var(--texto)
-  }
-  ul{padding-left:1.2rem}
-  li{margin:.35rem 0}
-  footer{margin-top:3rem; padding-top:1.25rem; border-top:1px solid var(--linha); color:var(--suave); font-size:.88rem}
-</style>
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/marca.css">
 </head>
 <body>
-<main>
+<main class="conteudo">
 
   <h1>LiveSurf — Termos de Serviço</h1>
   <p class="sub">Última atualização: 12 de agosto de 2026 · <em>English version below</em></p>
 
-  <div class="idioma">
+  <div class="navegacao">
     <a href="#pt">🇧🇷 Português</a>
     <a href="#en">🇺🇸 English</a>
-    <a href="./">← Sobre o LiveSurf</a>
-    <a href="./privacidade.html">Política de Privacidade</a>
+    <a href="./">← LiveSurf</a>
+    <a href="./privacidade.html">Privacidade</a>
+    <a href="./uso-da-api.html">Uso da API</a>
   </div>
 
   <section id="pt">
@@ -116,7 +88,8 @@
     <h2>8. Dados e privacidade</h2>
     <p>
       O tratamento de dados pessoais está descrito na
-      <a href="./privacidade.html">Política de Privacidade</a>, que integra estes
+      <a href="./privacidade.html">Privacidade</a>
+    <a href="./uso-da-api.html">Uso da API</a>, que integra estes
       Termos. Quanto às mensagens públicas coletadas por determinação do Cliente,
       o Operador atua como <strong>operador</strong> e o Cliente como
       <strong>controlador</strong>, cabendo a este definir a finalidade e a
@@ -160,7 +133,7 @@
     <h2>14. Contato</h2>
     <p>
       Diego Vieira Bilhalva —
-      <a href="mailto:diego.bilhalva@gmail.com">diego.bilhalva@gmail.com</a>
+      <a href="mailto:contato@livesurf.app">contato@livesurf.app</a>
     </p>
 
   </section>
@@ -277,11 +250,11 @@
     <p>Brazilian law applies, with venue in the Operator's domicile unless otherwise required by law.</p>
 
     <h2>14. Contact</h2>
-    <p>Diego Vieira Bilhalva — <a href="mailto:diego.bilhalva@gmail.com">diego.bilhalva@gmail.com</a></p>
+    <p>Diego Vieira Bilhalva — <a href="mailto:contato@livesurf.app">contato@livesurf.app</a></p>
 
   </section>
 
-  <footer>
+  <footer class="rodape">
     LiveSurf · Plataforma independente de monitoramento de transmissões ao vivo.
     Não afiliada ao YouTube ou ao Google. YouTube é marca registrada do Google LLC.
   </footer>

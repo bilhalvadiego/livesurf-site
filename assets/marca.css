@@ -1,0 +1,169 @@
+/* ---------------------------------------------------------------------------
+   LiveSurf — folha de estilo da marca, compartilhada pelas quatro páginas.
+
+   Cores e tipografia vêm do app (client/src/index.css e o kit de marca):
+   a onda é #e8462c, o papel é #f5f3ee, o fundo é #0b0b0f. Space Grotesk é a
+   fonte da marca — servida daqui mesmo (assets/fonts), não de CDN.
+
+   O site é dark por definição, como o app: a marca nasceu assim. Por isso não
+   há troca de tema — mas nenhuma cor fica implícita, todas são declaradas.
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("./fonts/space-grotesk.ttf") format("truetype-variations");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+:root {
+  --ink: #0b0b0f;
+  --ink-2: #14141b;
+  --ink-3: #1e1e28;
+  --paper: #f5f3ee;
+  --accent: #e8462c;
+  --muted: #8b8b9a;
+
+  --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.conteudo {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+
+h1 {
+  font-size: clamp(1.9rem, 5vw, 2.7rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2.75rem 0 0.75rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--ink-3);
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.35rem;
+}
+
+p, li { color: var(--paper); }
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.18em;
+}
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sub {
+  margin: 0 0 2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+ul, ol {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+li::marker { color: var(--accent); }
+
+/* Tabelas rolam sozinhas no celular em vez de espremer a página. */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+  display: block;
+  overflow-x: auto;
+}
+th, td {
+  text-align: left;
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--ink-3);
+  vertical-align: top;
+}
+th { font-weight: 600; color: var(--muted); }
+
+.caixa {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.15rem;
+  margin: 1.5rem 0;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--ink-3);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+}
+
+/* Navegação entre as páginas do site. */
+.navegacao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+.navegacao a {
+  text-decoration: none;
+  color: var(--paper);
+  border: 1px solid var(--ink-3);
+  border-radius: 2rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+}
+.navegacao a:hover { border-color: var(--accent); }
+
+.rodape {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink-3);
+  color: var(--muted);
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.rodape a { color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

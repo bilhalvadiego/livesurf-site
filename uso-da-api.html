@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiveSurf — Uso da YouTube Data API</title>
+<meta name="description" content="Como o LiveSurf utiliza a YouTube Data API: endpoints, finalidade e conformidade.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/marca.css">
+</head>
+<body>
+<main class="conteudo">
+
+  <nav class="navegacao" aria-label="Documentos">
+    <a href="./">← LiveSurf</a>
+    <a href="./privacidade.html">Privacidade</a>
+    <a href="./termos.html">Termos</a>
+  </nav>
+
+  <h1>Uso da YouTube Data API</h1>
+  <p class="sub">
+    Página técnica de conformidade · Atualizada em 12 de agosto de 2026 ·
+    <em>English version below</em>
+  </p>
+
+  <div class="caixa">
+    Esta página existe para transparência com o YouTube e com clientes que
+    precisam auditar como seus dados são tratados. Não descreve o
+    funcionamento interno do produto.
+  </div>
+
+  <section id="pt">
+
+    <h2>Endpoints utilizados</h2>
+    <table>
+      <thead>
+        <tr><th>Endpoint</th><th>Finalidade</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>videos.list</code></td>
+          <td>Verificar quais dos canais acompanhados estão transmitindo ao vivo no momento, e confirmar quando uma transmissão termina</td>
+        </tr>
+        <tr>
+          <td><code>liveChat/messages.list</code></td>
+          <td>Coletar o chat público das transmissões que o assinante escolheu monitorar</td>
+        </tr>
+        <tr>
+          <td><code>search.list</code></td>
+          <td>Resolver qual transmissão está no ar em um canal quando o assinante o abre</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Uso responsável de cota</h2>
+    <p>
+      A economia de cota é decisão de projeto, não consequência de pouco uso:
+    </p>
+    <ul>
+      <li>
+        <strong>Consultas em lote.</strong> Pedir um ou cinquenta vídeos custa
+        o mesmo à API, então nunca é feita uma consulta por vez.
+      </li>
+      <li>
+        <strong>Cache no servidor, compartilhado.</strong> Não é cache por
+        usuário: dois assinantes acompanhando o mesmo canal consomem uma
+        consulta só.
+      </li>
+      <li>
+        <strong>Canal fora do ar também é lembrado.</strong> Evita repetir
+        consulta sobre quem não está transmitindo.
+      </li>
+      <li>
+        <strong>Intervalos de coleta calibrados.</strong> Cada mensagem de chat
+        carrega o próprio horário de publicação, então coletar em intervalos
+        maiores não perde precisão nenhuma — só consome menos.
+      </li>
+    </ul>
+
+    <h2>Conformidade</h2>
+    <ul>
+      <li>Toda reprodução de vídeo acontece pelo <strong>player oficial do YouTube</strong>.</li>
+      <li>Nenhum vídeo é baixado, re-hospedado, retransmitido ou recodificado.</li>
+      <li>Anúncios e marca do YouTube nunca são removidos ou ocultados.</li>
+      <li>Apenas chat <strong>público</strong> é coletado, e só das transmissões que o assinante escolheu monitorar.</li>
+      <li>Mensagens coletadas são apagadas automaticamente após 90 dias.</li>
+      <li>
+        <strong>Dados da API não são vendidos, revendidos nem licenciados</strong>
+        como produto — nem em forma bruta, nem processada. A assinatura remunera
+        o software, não o dado.
+      </li>
+      <li>Nenhum dado é compartilhado com anunciantes ou corretores de dados.</li>
+    </ul>
+
+    <p>
+      Aplicam-se os
+      <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Termos de Serviço do YouTube</a>
+      e a
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade do Google</a>.
+      O tratamento de dados pessoais está descrito na
+      <a href="./privacidade.html">Política de Privacidade</a>.
+    </p>
+
+  </section>
+
+  <hr style="margin:3.5rem 0;border:0;border-top:1px solid var(--ink-3)">
+
+  <section id="en">
+
+    <h1>YouTube Data API usage</h1>
+    <p class="sub">Compliance reference · Updated August 12, 2026</p>
+
+    <h2>Endpoints used</h2>
+    <table>
+      <thead>
+        <tr><th>Endpoint</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>videos.list</code></td>
+          <td>Determine which followed channels are currently live, and confirm when a broadcast ends</td>
+        </tr>
+        <tr>
+          <td><code>liveChat/messages.list</code></td>
+          <td>Collect public live chat from broadcasts the subscriber chose to monitor</td>
+        </tr>
+        <tr>
+          <td><code>search.list</code></td>
+          <td>Resolve which broadcast is airing on a channel when the subscriber opens it</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Responsible quota use</h2>
+    <ul>
+      <li><strong>Batched requests.</strong> Requesting one or fifty videos costs the same, so lookups are never made one at a time.</li>
+      <li><strong>Server-side cache, shared across users.</strong> Not per-user: two subscribers following the same channel consume a single lookup.</li>
+      <li><strong>Offline channels are cached too</strong>, avoiding repeated lookups for channels that are not broadcasting.</li>
+      <li><strong>Calibrated polling intervals.</strong> Each chat message carries its own publication timestamp, so longer intervals lose no precision — they only consume less quota.</li>
+    </ul>
+
+    <h2>Compliance</h2>
+    <ul>
+      <li>All video playback occurs through the <strong>official YouTube player</strong>.</li>
+      <li>No video is downloaded, re-hosted, proxied, or re-encoded.</li>
+      <li>YouTube advertising and branding are never removed or obscured.</li>
+      <li>Only <strong>public</strong> chat is collected, and only from broadcasts the subscriber chose to monitor.</li>
+      <li>Collected messages are automatically deleted after 90 days.</li>
+      <li><strong>API data is never sold, resold, or licensed</strong> as a product, in raw or processed form. The subscription pays for the software, not the data.</li>
+      <li>No data is shared with advertisers or data brokers.</li>
+    </ul>
+
+    <p>
+      The <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a>
+      and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>
+      apply. Personal data handling is described in our
+      <a href="./privacidade.html">Privacy Policy</a>.
+    </p>
+
+  </section>
+
+  <footer class="rodape">
+    <div>
+      <a href="./">LiveSurf</a> ·
+      <a href="./privacidade.html">Privacidade</a> ·
+      <a href="./termos.html">Termos</a> ·
+      <a href="mailto:contato@livesurf.app">contato@livesurf.app</a>
+    </div>
+    <div>
+      LiveSurf · Não afiliada ao YouTube ou ao Google.
+      YouTube é marca registrada do Google LLC.
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>
