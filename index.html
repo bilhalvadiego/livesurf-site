@@ -238,6 +238,60 @@
     font-size:.85rem;
     color:var(--muted);
   }
+
+  /* ---- planos: mesma língua visual dos cards de .recurso, adaptada pra preço ---- */
+  .degustacao{
+    text-align:center;
+    color:var(--accent);
+    font-family:var(--mono);
+    font-size:.8rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin:0 0 1.5rem;
+  }
+  .planos{
+    display:grid;
+    gap:1.25rem;
+    grid-template-columns:1fr;
+    margin:1rem 0 1rem;
+  }
+  @media (min-width:52rem){
+    .planos{grid-template-columns:repeat(3,1fr)}
+  }
+  .plano{
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+    border:1px solid var(--ink-3);
+    border-radius:.5rem;
+    background:var(--ink-2);
+    padding:1.3rem 1.4rem;
+  }
+  .plano.destaque{border-color:var(--accent)}
+  .plano h3{margin:0;font-size:1.1rem}
+  .plano .preco{
+    margin:0;
+    font-size:1.7rem;
+    font-weight:600;
+    letter-spacing:-.01em;
+  }
+  .plano .preco span{font-size:.85rem;font-weight:400;color:var(--muted)}
+  .plano ul{gap:.35rem;margin:0;padding-left:1.1rem;font-size:.88rem;color:var(--muted)}
+  .plano .botao{
+    display:inline-block;
+    text-align:center;
+    text-decoration:none;
+    margin-top:.5rem;
+    border:1px solid var(--accent);
+    background:var(--accent);
+    color:var(--paper);
+    border-radius:.4rem;
+    padding:.6rem 1rem;
+    font-weight:500;
+    font-size:.92rem;
+  }
+  .plano:not(.destaque) .botao{background:transparent;color:var(--paper)}
+  .plano .botao:hover{opacity:.88}
 </style>
 </head>
 <body>
@@ -269,6 +323,8 @@
 <main class="conteudo">
 
   <nav class="navegacao" aria-label="Documentos">
+    <a href="#planos">Planos</a>
+    <a href="https://media.livesurf.app/login">Área do Cliente</a>
     <a href="./privacidade.html">Política de Privacidade</a>
     <a href="./termos.html">Termos de Serviço</a>
     <a href="mailto:contato@livesurf.app">Falar com a gente</a>
@@ -385,6 +441,64 @@
         <figcaption>Tudo que os canais publicaram, num lugar só</figcaption>
       </figure>
     </article>
+    </div>
+  </section>
+
+  <section class="largo" id="planos">
+    <div class="intro">
+      <h2>Planos</h2>
+      <p class="sub">
+        Comece com <strong>15 dias grátis</strong> em qualquer plano — sem
+        precisar falar com ninguém. Ao final da degustação, a assinatura
+        continua automaticamente no cartão informado, cobrada pelo Stripe
+        (a LiveSurf nunca guarda seu cartão). Cancele quando quiser, direto
+        pelo próprio painel.
+      </p>
+    </div>
+
+    <!-- Preço/limites aqui são um espelho do catálogo real (`planos_saas` no
+         banco) — se mudar lá, atualizar aqui também; não é dinâmico de
+         propósito (site estático, sem build). -->
+    <div class="planos">
+      <div class="plano">
+        <h3>Básico</h3>
+        <p class="preco">R$ 394<span>/mês</span></p>
+        <ul>
+          <li>1 usuário</li>
+          <li>1 canal do YouTube</li>
+          <li>1 vigia simultânea</li>
+          <li>Captura a cada 180s</li>
+        </ul>
+        <a class="botao" href="https://media.livesurf.app/planos?plano=basico">
+          Começar degustação
+        </a>
+      </div>
+      <div class="plano destaque">
+        <h3>Médio</h3>
+        <p class="preco">R$ 794<span>/mês</span></p>
+        <ul>
+          <li>3 usuários</li>
+          <li>2 canais do YouTube</li>
+          <li>3 vigias simultâneas</li>
+          <li>Captura a cada 120s</li>
+        </ul>
+        <a class="botao" href="https://media.livesurf.app/planos?plano=medio">
+          Começar degustação
+        </a>
+      </div>
+      <div class="plano">
+        <h3>Avançado</h3>
+        <p class="preco">R$ 1.594<span>/mês</span></p>
+        <ul>
+          <li>5 usuários</li>
+          <li>5 canais do YouTube (até 20 com combos extras)</li>
+          <li>10 vigias simultâneas</li>
+          <li>Captura a cada 60s</li>
+        </ul>
+        <a class="botao" href="https://media.livesurf.app/planos?plano=avancado">
+          Começar degustação
+        </a>
+      </div>
     </div>
   </section>
 
