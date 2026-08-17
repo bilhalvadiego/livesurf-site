@@ -292,6 +292,12 @@
   }
   .plano:not(.destaque) .botao{background:transparent;color:var(--paper)}
   .plano .botao:hover{opacity:.88}
+  .plano .botao-desativado{
+    display:inline-block;text-align:center;margin-top:.5rem;
+    border:1px solid var(--muted);background:transparent;color:var(--muted);
+    border-radius:.4rem;padding:.6rem 1rem;font-weight:500;font-size:.92rem;
+    cursor:not-allowed;opacity:.7;
+  }
 </style>
 </head>
 <body>
@@ -475,9 +481,9 @@
           <li>1 vigia simultânea</li>
           <li>Captura a cada 180s</li>
         </ul>
-        <a class="botao" href="https://media.livesurf.app/planos?plano=basico">
-          Começar degustação
-        </a>
+        <!-- Desativado por pedido do Diego, 21/08/2026 — "só por enquanto".
+             Pra reativar: trocar de volta pro <a class="botao" href="...">. -->
+        <span class="botao-desativado" aria-disabled="true">Em breve</span>
       </div>
       <div class="plano destaque">
         <h3>Médio</h3>
@@ -487,9 +493,9 @@
           <li>3 vigias simultâneas</li>
           <li>Captura a cada 120s</li>
         </ul>
-        <a class="botao" href="https://media.livesurf.app/planos?plano=medio">
-          Começar degustação
-        </a>
+        <!-- Desativado por pedido do Diego, 21/08/2026 — "só por enquanto".
+             Pra reativar: trocar de volta pro <a class="botao" href="...">. -->
+        <span class="botao-desativado" aria-disabled="true">Em breve</span>
       </div>
       <div class="plano">
         <h3>Avançado</h3>
@@ -499,9 +505,9 @@
           <li>10 vigias simultâneas</li>
           <li>Captura a cada 60s</li>
         </ul>
-        <a class="botao" href="https://media.livesurf.app/planos?plano=avancado">
-          Começar degustação
-        </a>
+        <!-- Desativado por pedido do Diego, 21/08/2026 — "só por enquanto".
+             Pra reativar: trocar de volta pro <a class="botao" href="...">. -->
+        <span class="botao-desativado" aria-disabled="true">Em breve</span>
       </div>
     </div>
   </section>
