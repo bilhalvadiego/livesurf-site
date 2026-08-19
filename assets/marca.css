@@ -83,10 +83,11 @@ body {
   padding: 3rem 1.5rem 5rem;
 }
 
-/* Faixa LARGA: para grades de cards e prints, que ganham em respiro
-   horizontal — o oposto do texto. Cresce até 84rem e depois para. */
+/* Faixa LARGA: para grades de cards, prints e o comparativo de planos,
+   que ganham em respiro horizontal — o oposto do texto. Cresce até 100rem
+   para que as cinco colunas caibam no desktop sem rolagem horizontal. */
 .largo {
-  max-width: 84rem;
+  max-width: 100rem;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
