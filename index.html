@@ -7,7 +7,7 @@
 <meta name="description" content="Chat observability para transmissões ao vivo: acompanhe várias lives na mesma tela, leia a audiência em tempo real e gere cortes, pautas e relatórios.">
 <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./assets/apple-touch-icon-180.png">
-<link rel="stylesheet" href="./assets/marca.css">
+<link rel="stylesheet" href="./assets/marca.css?v=20260819-planos-largo">
 <style>
   /* ---- abertura: a vinheta da marca ---- */
   .abertura{
@@ -297,6 +297,13 @@
   /* ---- comparativo completo ----
      Tabela larga por natureza (5 colunas + rótulos longos). Ela rola dentro
      do próprio contêiner; o `body` nunca rola de lado. */
+  /* A seção de planos não herda a coluna de leitura: no desktop ela usa toda
+     a largura útil da janela, até o limite da faixa larga. */
+  #planos{
+    width:min(calc(100vw - 3rem),100rem);
+    max-width:none;
+    margin-inline:auto;
+  }
   .comparativo-rolagem{
     overflow-x:auto;
     margin:2.5rem 0 1rem;
