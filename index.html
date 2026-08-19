@@ -305,7 +305,7 @@
     margin-inline:auto;
   }
   .comparativo-rolagem{
-    overflow-x:auto;
+    overflow:hidden;
     margin:2.5rem 0 1rem;
     border:1px solid var(--ink-3);
     border-radius:.5rem;
@@ -313,7 +313,9 @@
   }
   .comparativo{
     width:100%;
-    min-width:44rem;
+    min-width:0;
+    table-layout:fixed;
+    display:table;
     border-collapse:collapse;
     font-size:.88rem;
     /* Números de preço em colunas alinham pela mesma largura de dígito. */
@@ -321,10 +323,11 @@
   }
   .comparativo th,
   .comparativo td{
-    padding:.62rem .9rem;
+    padding:clamp(.42rem,1vw,.62rem) clamp(.38rem,1.4vw,.9rem);
     text-align:center;
     border-bottom:1px solid var(--ink-3);
     vertical-align:middle;
+    overflow-wrap:anywhere;
   }
   .comparativo thead th{
     position:sticky;
