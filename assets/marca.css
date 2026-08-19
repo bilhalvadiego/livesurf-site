@@ -75,10 +75,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Coluna de LEITURA: texto corrido nunca passa daqui, senão a linha fica
-   longa demais para o olho acompanhar. */
+/* Conteúdo principal: largo o bastante para as grades e o comparativo de
+   planos usarem o desktop sem apertar as colunas. */
 .conteudo {
-  max-width: 46rem;
+  max-width: 84rem;
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
 }
