@@ -256,7 +256,12 @@
     margin:1rem 0 1rem;
   }
   @media (min-width:52rem){
-    .planos{grid-template-columns:repeat(3,1fr)}
+    .planos{grid-template-columns:repeat(2,1fr)}
+  }
+  /* Quatro planos: só abrem em quatro colunas quando há largura de verdade.
+     Em 52rem ficariam com ~13rem cada, estreito demais pro preço + resumo. */
+  @media (min-width:76rem){
+    .planos{grid-template-columns:repeat(4,1fr)}
   }
   .plano{
     display:flex;
@@ -267,8 +272,19 @@
     background:var(--ink-2);
     padding:1.3rem 1.4rem;
   }
-  .plano.destaque{border-color:var(--accent)}
+  /* ⚠️ `margin:0` é correção, não enfeite: a classe genérica `.destaque`
+     (usada nos blocos de texto lá em cima) traz `margin:1.5rem 0`, e como
+     ambos os seletores têm a mesma especificidade isso vazava no card em
+     destaque, empurrando ele pra baixo dos irmãos dentro do grid. */
+  .plano.destaque{border-color:var(--accent);margin:0;padding:1.3rem 1.4rem}
   .plano h3{margin:0;font-size:1.1rem}
+  .plano .resumo{
+    margin:0;
+    font-size:.88rem;
+    color:var(--paper);
+    opacity:.8;
+    text-wrap:balance;
+  }
   .plano .preco{
     margin:0;
     font-size:1.7rem;
@@ -277,6 +293,99 @@
   }
   .plano .preco span{font-size:.85rem;font-weight:400;color:var(--muted)}
   .plano ul{gap:.35rem;margin:0;padding-left:1.1rem;font-size:.88rem;color:var(--muted)}
+
+  /* ---- comparativo completo ----
+     Tabela larga por natureza (5 colunas + rótulos longos). Ela rola dentro
+     do próprio contêiner; o `body` nunca rola de lado. */
+  .comparativo-rolagem{
+    overflow-x:auto;
+    margin:2.5rem 0 1rem;
+    border:1px solid var(--ink-3);
+    border-radius:.5rem;
+    background:var(--ink-2);
+  }
+  .comparativo{
+    width:100%;
+    min-width:44rem;
+    border-collapse:collapse;
+    font-size:.88rem;
+    /* Números de preço em colunas alinham pela mesma largura de dígito. */
+    font-variant-numeric:tabular-nums;
+  }
+  .comparativo th,
+  .comparativo td{
+    padding:.62rem .9rem;
+    text-align:center;
+    border-bottom:1px solid var(--ink-3);
+    vertical-align:middle;
+  }
+  .comparativo thead th{
+    position:sticky;
+    top:0;
+    background:var(--ink-3);
+    color:var(--paper);
+    font-size:.82rem;
+    letter-spacing:.02em;
+  }
+  /* A coluna de recurso é o eixo de leitura: fica à esquerda e mais larga. */
+  .comparativo th[scope="row"],
+  .comparativo thead th:first-child{
+    text-align:left;
+    width:34%;
+    font-weight:500;
+  }
+  .comparativo th[scope="row"]{color:var(--paper);opacity:.92}
+  .comparativo th[scope="row"] small{
+    display:block;
+    font-weight:400;
+    color:var(--muted);
+    font-size:.78rem;
+    margin-top:.12rem;
+  }
+  /* Linha de seção: separa os grupos sem virar mais uma tabela. */
+  .comparativo .secao th{
+    text-align:left;
+    background:var(--ink);
+    color:var(--accent);
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    padding-top:1.1rem;
+    padding-bottom:.55rem;
+  }
+  .comparativo td{color:var(--muted)}
+  /* "—" não é dado ausente, é ausência de recurso: fica apagado de propósito. */
+  .comparativo .nao{color:var(--ink-3);color:color-mix(in srgb, var(--muted) 45%, transparent)}
+  .comparativo .sim{color:var(--accent);font-weight:600}
+  .comparativo td strong{color:var(--paper);font-weight:600}
+  .comparativo td small{display:block;font-size:.76rem;opacity:.75}
+  /* Coluna do plano em destaque, alinhada com o card de mesmo nome. */
+  .comparativo .col-destaque{background:rgba(232,70,44,.06)}
+  .comparativo tbody tr:last-child th,
+  .comparativo tbody tr:last-child td{border-bottom:0}
+
+  /* Legenda da tabela: existe para leitor de tela, não para o olho — a
+     seção já tem <h2>Planos</h2> visível logo acima. */
+  .sr-so-leitor{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip-path:inset(50%);
+    white-space:nowrap;
+    border:0;
+  }
+
+  .notas-planos{
+    margin:.75rem 0 0;
+    padding:0;
+    list-style:none;
+    font-size:.82rem;
+    color:var(--muted);
+    display:grid;
+    gap:.3rem;
+  }
   .plano .botao{
     display:inline-block;
     text-align:center;
@@ -454,62 +563,254 @@
     <div class="intro">
       <h2>Planos</h2>
       <p class="sub">
-        Comece com <strong>15 dias grátis</strong> em qualquer plano — sem
-        precisar falar com ninguém. Ao final da degustação, a assinatura
-        continua automaticamente no cartão informado, cobrada pelo Stripe
-        (a LiveSurf nunca guarda seu cartão). Cancele quando quiser, direto
-        pelo próprio painel.
+        Comece com <strong>15 dias grátis, sem cartão</strong> — sem precisar
+        falar com ninguém. Durante o teste você usa a cota de API da LiveSurf.
+        Se não cadastrar cartão até o fim dos 15 dias, o acesso simplesmente
+        encerra: nada é cobrado. Ao assinar, a cobrança é mensal pelo Stripe
+        (a LiveSurf nunca guarda seu cartão) e você cancela quando quiser,
+        direto pelo próprio painel.
       </p>
       <p class="sub">
-        Os valores estão em revisão — <a href="mailto:contato@livesurf.app">fale
-        com a gente</a> pra saber as condições atuais.
+        Todos os planos dão acesso ao catálogo completo de canais. O que muda é
+        <strong>quantos você observa</strong> e <strong>com que rapidez</strong>.
       </p>
     </div>
 
-    <!-- 17/08/2026: os VALORES saíram daqui a pedido do Diego (em revisão).
-         Os limites continuam sendo espelho do catálogo real (`planos_saas` no
-         banco) — se mudar lá, atualizar aqui também; não é dinâmico de
-         propósito (site estático, sem build). Pra repor preço, devolver o
-         `<p class="preco">` em cada card; o CSS `.plano .preco` segue no
-         lugar. -->
+    <!-- 19/08/2026: os valores VOLTARAM (Diego confirmou 490/890/1590) e os
+         planos passaram a ser QUATRO, espelhando a tabela vendável.
+
+         ⚠️ O grão da cobrança é o CANAL, não a empresa nem o usuário: um canal
+         contratado = uma assinatura. Quem quiser 10 canais faz 10 contratações.
+         Por isso os cards NÃO falam mais em "N usuários" — a versão anterior
+         falava, e contradizia tanto o modelo de cobrança quanto a decisão de
+         não expor usuário nenhum no produto.
+
+         Os botões seguem desativados ("Em breve") por pedido do Diego de
+         21/08 — reativar é trocar pelo <a class="botao" href="...">.
+
+         Não é dinâmico de propósito (site estático, sem build): se os limites
+         mudarem em `planos_saas`, atualizar aqui também. -->
     <div class="planos">
       <div class="plano">
-        <h3>Básico</h3>
+        <h3>Free</h3>
+        <p class="preco">R$ 0</p>
+        <p class="resumo">Acompanhe o que está no ar, sem custo e sem cartão.</p>
         <ul>
-          <li>1 usuário</li>
-          <li>1 canal do YouTube</li>
-          <li>1 vigia simultânea</li>
-          <li>Captura a cada 180s</li>
+          <li>Catálogo completo de canais</li>
+          <li>Nenhuma observação</li>
+          <li>TV ao vivo, rádio, grade e vídeos</li>
         </ul>
-        <!-- Desativado por pedido do Diego, 21/08/2026 — "só por enquanto".
-             Pra reativar: trocar de volta pro <a class="botao" href="...">. -->
+        <span class="botao-desativado" aria-disabled="true">Em breve</span>
+      </div>
+      <div class="plano">
+        <h3>Básico</h3>
+        <p class="preco">R$ 490 <span>/mês</span></p>
+        <p class="resumo">Seu canal observado, com relatório de cada transmissão.</p>
+        <ul>
+          <li>Catálogo completo de canais</li>
+          <li>1 canal observado — o seu</li>
+          <li>Chat quente lido a cada 10 min</li>
+          <li>Relatório após cada transmissão</li>
+        </ul>
         <span class="botao-desativado" aria-disabled="true">Em breve</span>
       </div>
       <div class="plano destaque">
-        <h3>Médio</h3>
+        <h3>Intermediário</h3>
+        <p class="preco">R$ 890 <span>/mês</span></p>
+        <p class="resumo">Detalhe da sua live em tempo real, mais um concorrente no radar.</p>
         <ul>
-          <li>3 usuários</li>
-          <li>2 canais do YouTube</li>
-          <li>3 vigias simultâneas</li>
-          <li>Captura a cada 120s</li>
+          <li>Catálogo completo de canais</li>
+          <li>2 canais observados</li>
+          <li>Chat quente lido a cada 5 min</li>
+          <li>Detalhe da live ao vivo e notícias</li>
+          <li>Cortes automáticos pela reação do chat</li>
         </ul>
-        <!-- Desativado por pedido do Diego, 21/08/2026 — "só por enquanto".
-             Pra reativar: trocar de volta pro <a class="botao" href="...">. -->
         <span class="botao-desativado" aria-disabled="true">Em breve</span>
       </div>
       <div class="plano">
         <h3>Avançado</h3>
+        <p class="preco">R$ 1.590 <span>/mês</span></p>
+        <p class="resumo">A leitura mais rápida do seu canal e o comparativo com quem você acompanha.</p>
         <ul>
-          <li>5 usuários</li>
-          <li>5 canais do YouTube (até 20 com combos extras)</li>
-          <li>10 vigias simultâneas</li>
-          <li>Captura a cada 60s</li>
+          <li>Catálogo completo de canais</li>
+          <li>4 canais observados</li>
+          <li>Chat quente lido a cada 3 min</li>
+          <li>Dashboard e comparativo agrupado</li>
+          <li>Cortes por assunto e ondas de notícia</li>
         </ul>
-        <!-- Desativado por pedido do Diego, 21/08/2026 — "só por enquanto".
-             Pra reativar: trocar de volta pro <a class="botao" href="...">. -->
         <span class="botao-desativado" aria-disabled="true">Em breve</span>
       </div>
     </div>
+
+    <!-- Comparativo completo — espelho da tabela vendável (artefato "Planos
+         LiveSurf Media"). Se divergir, a tabela vendável é que manda: ela é o
+         alvo comercial, não uma descrição do que já existe hoje.
+         A coluna "Intermediário" leva `col-destaque` pra casar com o card de
+         mesmo nome; é a mesma ênfase, não uma segunda. -->
+    <div class="comparativo-rolagem">
+      <table class="comparativo">
+        <caption class="sr-so-leitor">Comparativo de recursos entre os planos Free, Básico, Intermediário e Avançado</caption>
+        <thead>
+          <tr>
+            <th scope="col">Recurso</th>
+            <th scope="col">Free</th>
+            <th scope="col">Básico</th>
+            <th scope="col" class="col-destaque">Intermediário</th>
+            <th scope="col">Avançado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="secao"><th colspan="5" scope="colgroup">Valores</th></tr>
+          <tr>
+            <th scope="row">Mensal</th>
+            <td><strong>R$ 0</strong></td>
+            <td><strong>R$ 490</strong><small>por mês</small></td>
+            <td class="col-destaque"><strong>R$ 890</strong><small>por mês</small></td>
+            <td><strong>R$ 1.590</strong><small>por mês</small></td>
+          </tr>
+          <tr>
+            <th scope="row">Anual <small>pago uma vez, com desconto</small></th>
+            <td><strong>R$ 0</strong></td>
+            <td><strong>R$ 465,50</strong><small>−5% · R$ 5.586,00 no ano</small></td>
+            <td class="col-destaque"><strong>R$ 801,00</strong><small>−10% · R$ 9.612,00 no ano</small></td>
+            <td><strong>R$ 1.351,50</strong><small>−15% · R$ 16.218,00 no ano</small></td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Canais</th></tr>
+          <tr>
+            <th scope="row">Canais disponíveis para acompanhar</th>
+            <td>todos</td><td>todos</td><td class="col-destaque">todos</td><td>todos</td>
+          </tr>
+          <tr>
+            <th scope="row">Canais observados <small>o seu entra automaticamente</small></th>
+            <td class="nao">—</td>
+            <td><strong>1</strong></td>
+            <td class="col-destaque"><strong>2</strong></td>
+            <td><strong>4</strong></td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Velocidade de leitura do seu canal</th></tr>
+          <tr>
+            <th scope="row">Chat quente <small>acima de 10 mensagens por minuto</small></th>
+            <td class="nao">—</td><td>10 min</td><td class="col-destaque">5 min</td><td><strong>3 min</strong></td>
+          </tr>
+          <tr>
+            <th scope="row">Chat morno <small>acima de 5 mensagens por minuto</small></th>
+            <td class="nao">—</td><td>10 min</td><td class="col-destaque">5 min</td><td>5 min</td>
+          </tr>
+          <tr>
+            <th scope="row">Chat frio</th>
+            <td class="nao">—</td><td>10 min</td><td class="col-destaque">10 min</td><td>10 min</td>
+          </tr>
+          <tr>
+            <th scope="row">Demais canais observados</th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque">10 min</td><td>10 min</td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Conteúdo</th></tr>
+          <tr>
+            <th scope="row">TV ao vivo</th>
+            <td class="sim">✓</td><td class="sim">✓</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Rádio</th>
+            <td class="sim">✓</td><td class="sim">✓</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Grade de programação</th>
+            <td class="sim">✓</td><td class="sim">✓</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Catálogo de vídeos</th>
+            <td class="sim">✓</td><td class="sim">✓</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Notícias</th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Ondas e cortes</th></tr>
+          <tr>
+            <th scope="row">Onda de vídeo</th>
+            <td class="nao">—</td><td class="nao">—</td>
+            <td class="col-destaque"><strong>1</strong><small>por dia</small></td>
+            <td><strong>2</strong><small>por dia, vídeo ou notícia</small></td>
+          </tr>
+          <tr>
+            <th scope="row">Onda de notícia</th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque nao">—</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Cortes automáticos pela reação do chat <small>o momento em que a audiência reagiu, já recortado</small></th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Cortes por assunto em vídeo publicado <small>divide a gravação em blocos com título e tema</small></th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque nao">—</td><td class="sim">✓</td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Monitoramento</th></tr>
+          <tr>
+            <th scope="row">Cards de monitoramento</th>
+            <td class="nao">—</td><td class="sim">✓</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Detalhe da live ao vivo <small>do seu canal</small></th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Audiência</th>
+            <td>só na TV</td><td>TV e monitoramento</td>
+            <td class="col-destaque">TV e monitoramento</td><td>TV e monitoramento</td>
+          </tr>
+          <tr>
+            <th scope="row">Dashboard</th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque nao">—</td><td class="sim">✓</td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Relatórios</th></tr>
+          <tr>
+            <th scope="row">Relatório de observação <small>do seu canal, após cada transmissão</small></th>
+            <td class="nao">—</td><td class="sim">✓</td><td class="col-destaque sim">✓</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Comparativo agrupado <small>seu canal frente aos que você acompanha</small></th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque nao">—</td><td class="sim">✓</td>
+          </tr>
+          <tr>
+            <th scope="row">Imprimir e exportar</th>
+            <td class="nao">—</td><td class="nao">—</td>
+            <td class="col-destaque"><strong>1</strong><small>por dia</small></td>
+            <td><strong>5</strong><small>por dia</small></td>
+          </tr>
+
+          <tr class="secao"><th colspan="5" scope="colgroup">Inteligência</th></tr>
+          <tr>
+            <th scope="row">Mensagens no chat por gatilho <small>chamar audiência, engajamento e contribuição</small></th>
+            <td class="nao">—</td><td class="nao">—</td><td class="col-destaque nao">—</td>
+            <td><strong>até 4</strong><small>por transmissão</small></td>
+          </tr>
+          <tr>
+            <th scope="row">Alertas no celular e no navegador</th>
+            <td class="nao">—</td><td class="nao">—</td>
+            <td class="col-destaque"><strong>até 3</strong><small>por transmissão</small></td>
+            <td><strong>até 8</strong><small>por transmissão</small></td>
+          </tr>
+          <tr>
+            <th scope="row">Pack completo de análise <small>predição, tendências, trend topics, boletim semanal — à parte</small></th>
+            <td class="nao">—</td><td>consulte</td><td class="col-destaque">consulte</td><td>consulte</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="notas-planos">
+      <li>Chat quente: acima de 10 mensagens por minuto na última leitura. Chat morno: acima de 5.</li>
+      <li>Ondas: o Avançado tem 2 por dia no total, em qualquer combinação entre vídeo e notícia.</li>
+      <li>A leitura acelerada vale para o <strong>seu</strong> canal. Canais que você acompanha de fora são lidos a cada 10 minutos, em qualquer plano.</li>
+      <li>A Inteligência já vem no plano — só o Pack completo de análise é contratado à parte. Para publicar mensagens no chat, a LiveSurf precisa ser colaboradora do seu canal.</li>
+      <li>Os relatórios trazem volume, ritmo, sentimento e arrecadação. Dados de espectadores individuais não são expostos em nenhum plano.</li>
+    </ul>
   </section>
 
   <div class="conteudo">
@@ -524,7 +825,7 @@
   <h2>Como você usa</h2>
   <p>
     O LiveSurf Media roda direto no navegador, sem instalar nada — cadastro
-    aberto, com 15 dias de degustação grátis (veja <a href="#planos">Planos</a>
+    aberto, com 15 dias de degustação grátis e sem cartão (veja <a href="#planos">Planos</a>
     acima). Também existe instalador Windows pra quem prefere aplicativo
     dedicado.
   </p>
