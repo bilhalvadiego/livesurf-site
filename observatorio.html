@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pareceres editoriais do Observatório LiveSurf sobre transmissões ao vivo.">
+  <title>Observatório — LiveSurf</title>
+  <style>
+    :root { color-scheme: dark; --fundo:#090a0f; --painel:#12141c; --linha:#292c38; --texto:#f5f3ee; --suave:#aaaebe; --acento:#e8462c; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--fundo); color:var(--texto); font:16px/1.65 Inter,ui-sans-serif,system-ui,sans-serif; }
+    a { color:inherit; }
+    header { border-bottom:1px solid var(--linha); background:rgba(9,10,15,.94); position:sticky; top:0; z-index:2; }
+    .barra { max-width:1160px; margin:auto; min-height:72px; padding:14px 24px; display:flex; align-items:center; gap:20px; }
+    .marca { color:var(--texto); font-size:1.35rem; font-weight:850; text-decoration:none; letter-spacing:-.04em; }
+    .marca span { color:var(--acento); }
+    nav { margin-left:auto; display:flex; gap:18px; }
+    nav a { color:var(--suave); font-size:.9rem; text-decoration:none; }
+    main { max-width:1160px; margin:auto; padding:64px 24px 96px; }
+    .intro { max-width:760px; margin-bottom:42px; }
+    .rotulo { color:var(--acento); font-size:.78rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { margin:.2em 0; font-size:clamp(2.5rem,7vw,5.5rem); line-height:.96; letter-spacing:-.06em; }
+    .intro p { color:var(--suave); font-size:1.08rem; }
+    .estado { color:var(--suave); padding:24px; border:1px solid var(--linha); border-radius:14px; }
+    .arquivo { display:grid; grid-template-columns:minmax(210px,280px) 1fr; gap:28px; align-items:start; }
+    .pastas { display:grid; gap:8px; position:sticky; top:96px; }
+    button { font:inherit; color:inherit; cursor:pointer; }
+    .pasta,.documento { width:100%; padding:14px 16px; border:1px solid var(--linha); border-radius:12px; background:var(--painel); text-align:left; }
+    .pasta[aria-pressed="true"] { border-color:var(--acento); box-shadow:inset 3px 0 var(--acento); }
+    .pasta small,.documento small { display:block; color:var(--suave); margin-top:3px; }
+    .lista { display:grid; gap:12px; }
+    .documento:hover { border-color:#555a6d; }
+    article { margin-top:28px; padding:clamp(20px,4vw,46px); border:1px solid var(--linha); border-radius:18px; background:var(--painel); }
+    article h2 { margin-top:0; font-size:clamp(1.8rem,4vw,3rem); line-height:1.08; }
+    article h3 { margin-top:2em; color:#fff; }
+    article p,article li { color:#d6d7df; }
+    article .numero { padding:12px 14px; border-left:3px solid var(--acento); background:#0c0d13; margin:8px 0; }
+    article .assinatura { margin-top:40px; white-space:pre-line; color:#fff; font-weight:650; }
+    article .fontes a { color:#ff7b66; overflow-wrap:anywhere; }
+    [hidden] { display:none !important; }
+    @media (max-width:760px) { .arquivo { grid-template-columns:1fr; } .pastas { position:static; } nav a:first-child { display:none; } }
+  </style>
+</head>
+<body>
+  <header><div class="barra"><a class="marca" href="./index.html">Live<span>Surf</span></a><nav><a href="./index.html">Início</a><a href="https://media.livesurf.app/login">Área do Cliente</a></nav></div></header>
+  <main>
+    <section class="intro"><span class="rotulo">Inteligência editorial</span><h1>Observatório</h1><p>Pareceres sobre o ecossistema brasileiro de transmissões ao vivo, produzidos a partir dos dados monitorados pela LiveSurf e do contexto noticioso de cada período.</p></section>
+    <p id="estado" class="estado">Carregando documentos publicados…</p>
+    <section id="arquivo" class="arquivo" hidden><aside id="pastas" class="pastas" aria-label="Pastas por mês"></aside><div><div id="lista" class="lista" aria-label="Documentos"></div><article id="parecer" hidden></article></div></section>
+  </main>
+  <script>
+    const ENDPOINT = "https://vfohnyldbwkbarvpwnqw.supabase.co/functions/v1/observatorio-publico";
+    const estado = document.querySelector("#estado");
+    const arquivo = document.querySelector("#arquivo");
+    const pastas = document.querySelector("#pastas");
+    const lista = document.querySelector("#lista");
+    const parecer = document.querySelector("#parecer");
+    let relatorios = [];
+
+    const texto = (tag, valor, classe) => { const no=document.createElement(tag); no.textContent=valor || ""; if(classe) no.className=classe; return no; };
+    const dataLonga = valor => new Intl.DateTimeFormat("pt-BR", { dateStyle:"long", timeZone:"UTC" }).format(new Date(valor + "T12:00:00Z"));
+    const chaveMes = item => String(item.data_referencia || item.criado_em).slice(0,7);
+    const nomeMes = chave => { const [ano,mes]=chave.split("-"); return new Intl.DateTimeFormat("pt-BR", { month:"long", year:"numeric", timeZone:"UTC" }).format(new Date(Date.UTC(+ano,+mes-1,1))); };
+    const adicionaSecao = (titulo, valores, render) => { if(!valores?.length) return; parecer.append(texto("h3",titulo)); valores.forEach(render); };
+
+    function abrir(item) {
+      const r=item.relatorio || {};
+      parecer.replaceChildren();
+      parecer.append(texto("div", dataLonga(item.data_referencia), "rotulo"), texto("h2", item.titulo || r.titulo || "Parecer editorial"));
+      if(r.periodo) parecer.append(texto("p", `Período analisado: ${r.periodo}`));
+      if(r.resumoExecutivo) parecer.append(texto("p",r.resumoExecutivo));
+      adicionaSecao("Números em destaque",r.destaquesNumericos,(v)=>parecer.append(texto("div",v,"numero")));
+      adicionaSecao("Categorias com mais lives",r.categoriasPrincipais,(v)=>{ const bloco=document.createElement("section"); bloco.append(texto("h3",`${v.categoria} — ${v.lives} lives`),texto("p",v.analise)); parecer.append(bloco); });
+      adicionaSecao("Contexto noticioso",r.contextoNoticioso,(v)=>{ parecer.append(texto("h3",v.noticia),texto("p",v.relacao)); });
+      if(r.conclusao) parecer.append(texto("h3","Conclusão"),texto("p",r.conclusao));
+      if(r.assinatura) parecer.append(texto("p",r.assinatura,"assinatura"));
+      if(r.fontes?.length) { const bloco=document.createElement("div"); bloco.className="fontes"; bloco.append(texto("h3","Fontes")); const ul=document.createElement("ul"); r.fontes.forEach(f=>{ const li=document.createElement("li"); const a=document.createElement("a"); a.href=f.url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=f.titulo || f.url; li.append(a); ul.append(li); }); bloco.append(ul); parecer.append(bloco); }
+      parecer.hidden=false;
+      parecer.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+
+    function abrirPasta(chave) {
+      [...pastas.children].forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mes===chave)));
+      lista.replaceChildren(); parecer.hidden=true;
+      relatorios.filter(r=>chaveMes(r)===chave).forEach(item=>{ const b=document.createElement("button"); b.className="documento"; b.append(texto("strong",item.titulo || "Parecer editorial"),texto("small",dataLonga(item.data_referencia))); b.addEventListener("click",()=>abrir(item)); lista.append(b); });
+    }
+
+    fetch(ENDPOINT).then(r=>{ if(!r.ok) throw new Error("Falha ao consultar o acervo"); return r.json(); }).then(dados=>{
+      relatorios=Array.isArray(dados) ? dados : dados.documentos || [];
+      if(!relatorios.length) { estado.textContent="Ainda não há documentos publicados."; return; }
+      estado.hidden=true; arquivo.hidden=false;
+      const meses=[...new Set(relatorios.map(chaveMes))];
+      meses.forEach(chave=>{ const b=document.createElement("button"); b.className="pasta"; b.dataset.mes=chave; const qtd=relatorios.filter(r=>chaveMes(r)===chave).length; b.append(texto("strong",nomeMes(chave)),texto("small",`${qtd} documento${qtd===1?"":"s"}`)); b.addEventListener("click",()=>abrirPasta(chave)); pastas.append(b); });
+      abrirPasta(meses[0]);
+    }).catch(()=>{ estado.textContent="Não foi possível carregar os documentos agora. Tente novamente em instantes."; });
+  </script>
+</body>
+</html>
