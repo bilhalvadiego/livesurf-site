@@ -40,7 +40,7 @@
         <tr><td><code>https://accounts.google.com/o/oauth2/v2/auth</code></td><td>Consentimento OAuth do Google</td></tr>
         <tr><td><code>https://oauth2.googleapis.com/token</code> e <code>/revoke</code></td><td>Troca, renovação e revogação de tokens no servidor</td></tr>
         <tr><td><code>https://vfohnyldbwkbarvpwnqw.supabase.co/functions/v1/youtube-playlists/callback</code></td><td>URI de redirecionamento OAuth da integração permanente</td></tr>
-        <tr><td><code>https://www.youtube.com/iframe_api</code>, <code>https://www.youtube-nocookie.com/embed/</code> e <code>https://www.youtube.com/live_chat</code></td><td>Player oficial incorporado e painel oficial de chat</td></tr>
+        <tr><td><code>https://www.youtube.com/iframe_api</code>, <code>https://www.youtube-nocookie.com/embed/</code> e <code>https://www.youtube.com/live_chat</code></td><td>Player oficial e painel oficial de chat, ambos <strong>incorporados por iframe no navegador do usuário</strong> (nunca lidos por servidor)</td></tr>
         <tr><td><code>https://i.ytimg.com/</code></td><td>Miniaturas oficiais dos vídeos</td></tr>
       </tbody>
     </table>
@@ -67,11 +67,11 @@
         </tr>
         <tr>
           <td><code>channels.list</code>, <code>playlistItems.list</code> e <code>i18nLanguages.list</code></td>
-          <td>Resolver canais e seus uploads, atualizar o catálogo e oferecer idiomas aceitos pela API</td>
+          <td>Resolver canais, <strong>descobrir os vídeos recentes de cada canal pela playlist de uploads</strong> (fonte da detecção de lives), atualizar o catálogo e oferecer idiomas aceitos pela API</td>
         </tr>
         <tr>
-          <td><code>subscriptions.list</code> e <code>subscriptions.insert</code></td>
-          <td>Listar ou copiar inscrições quando o usuário aciona expressamente esse recurso autorizado</td>
+          <td><code>subscriptions.list</code></td>
+          <td>Listar as inscrições do canal conectado quando o usuário aciona expressamente esse recurso autorizado</td>
         </tr>
         <tr>
           <td><code>playlists.insert</code>, <code>playlists.delete</code> e <code>playlistItems.insert</code></td>
@@ -88,17 +88,20 @@
       </tbody>
     </table>
 
-    <h2>Descoberta pública e replay</h2>
+    <h2>Descoberta pública</h2>
     <p>
-      Para reduzir cota e completar informações públicas, o LiveSurf também lê
-      páginas e feeds públicos do próprio YouTube em
-      <code>https://www.youtube.com/channel/{channelId}/live</code>,
-      <code>https://www.youtube.com/feeds/videos.xml</code> e
-      <code>https://www.youtube.com/watch</code>. Dentro da janela de retenção,
-      a recomposição de chat encerrado pode consultar o replay público em
-      <code>https://www.youtube.com/youtubei/v1/live_chat/get_live_chat_replay</code>.
-      Esses caminhos não dão acesso a mensagens privadas nem às credenciais de
-      participantes do chat.
+      Além da API, o LiveSurf lê a página pública
+      <code>https://www.youtube.com/channel/{channelId}/live</code> e
+      <code>https://www.youtube.com/watch</code> para confirmar qual é a
+      transmissão corrente de um canal — caminhos <strong>permitidos pelo
+      <code>robots.txt</code> do YouTube</strong>. Eles não dão acesso a
+      mensagens privadas nem às credenciais de participantes do chat.
+    </p>
+    <p>
+      O LiveSurf <strong>não</strong> acessa nenhum caminho marcado como
+      <code>Disallow</code> no <code>robots.txt</code> do YouTube. A descoberta
+      de vídeos recentes é feita por <code>playlistItems.list</code>, e a
+      recomposição de chat de transmissões encerradas foi descontinuada.
     </p>
 
     <h2>Uso responsável de cota</h2>
@@ -123,6 +126,11 @@
         <strong>Intervalos de coleta calibrados.</strong> Cada mensagem de chat
         carrega o próprio horário de publicação, então coletar em intervalos
         maiores não perde precisão nenhuma — só consome menos.
+      </li>
+      <li>
+        <strong>Orçamento diário com bloqueio.</strong> A descoberta e a
+        confirmação conferem o gasto do dia antes de cada rodada e param sozinhas
+        ao atingir o teto, em vez de estourar a cota do projeto.
       </li>
     </ul>
 
@@ -168,7 +176,7 @@
         <tr><td><code>https://accounts.google.com/o/oauth2/v2/auth</code></td><td>Google OAuth consent</td></tr>
         <tr><td><code>https://oauth2.googleapis.com/token</code> and <code>/revoke</code></td><td>Server-side token exchange, renewal, and revocation</td></tr>
         <tr><td><code>https://vfohnyldbwkbarvpwnqw.supabase.co/functions/v1/youtube-playlists/callback</code></td><td>OAuth redirect URI for the permanent integration</td></tr>
-        <tr><td><code>https://www.youtube.com/iframe_api</code>, <code>https://www.youtube-nocookie.com/embed/</code>, and <code>https://www.youtube.com/live_chat</code></td><td>Official embedded player and official chat panel</td></tr>
+        <tr><td><code>https://www.youtube.com/iframe_api</code>, <code>https://www.youtube-nocookie.com/embed/</code>, and <code>https://www.youtube.com/live_chat</code></td><td>Official player and official chat panel, both <strong>embedded via iframe in the user’s browser</strong> (never fetched server-side)</td></tr>
         <tr><td><code>https://i.ytimg.com/</code></td><td>Official video thumbnails</td></tr>
       </tbody>
     </table>
@@ -195,11 +203,11 @@
         </tr>
         <tr>
           <td><code>channels.list</code>, <code>playlistItems.list</code>, and <code>i18nLanguages.list</code></td>
-          <td>Resolve channels and uploads, update the catalog, and offer API-supported languages</td>
+          <td>Resolve channels, <strong>discover each channel’s recent videos through its uploads playlist</strong> (the source for live detection), update the catalog, and offer API-supported languages</td>
         </tr>
         <tr>
-          <td><code>subscriptions.list</code> and <code>subscriptions.insert</code></td>
-          <td>List or copy subscriptions when the user expressly invokes that authorized feature</td>
+          <td><code>subscriptions.list</code></td>
+          <td>List the connected channel’s subscriptions when the user expressly invokes that authorized feature</td>
         </tr>
         <tr>
           <td><code>playlists.insert</code>, <code>playlists.delete</code>, and <code>playlistItems.insert</code></td>
@@ -216,17 +224,20 @@
       </tbody>
     </table>
 
-    <h2>Public discovery and replay</h2>
+    <h2>Public discovery</h2>
     <p>
-      To conserve quota and complete public information, LiveSurf also reads
-      YouTube's own public pages and feeds at
-      <code>https://www.youtube.com/channel/{channelId}/live</code>,
-      <code>https://www.youtube.com/feeds/videos.xml</code>, and
-      <code>https://www.youtube.com/watch</code>. Within the retention window,
-      reconstruction of an ended chat may query its public replay at
-      <code>https://www.youtube.com/youtubei/v1/live_chat/get_live_chat_replay</code>.
-      These paths do not provide access to private messages or chat participants'
-      credentials.
+      Beyond the API, LiveSurf reads the public page
+      <code>https://www.youtube.com/channel/{channelId}/live</code> and
+      <code>https://www.youtube.com/watch</code> to confirm a channel's current
+      broadcast — paths <strong>permitted by YouTube's
+      <code>robots.txt</code></strong>. They provide no access to private
+      messages or chat participants' credentials.
+    </p>
+    <p>
+      LiveSurf does <strong>not</strong> access any path marked
+      <code>Disallow</code> in YouTube's <code>robots.txt</code>. Recent-video
+      discovery uses <code>playlistItems.list</code>, and reconstruction of chat
+      from ended broadcasts has been discontinued.
     </p>
 
     <h2>Responsible quota use</h2>
@@ -235,6 +246,11 @@
       <li><strong>Server-side cache, shared across users.</strong> Not per-user: two subscribers following the same channel consume a single lookup.</li>
       <li><strong>Offline channels are cached too</strong>, avoiding repeated lookups for channels that are not broadcasting.</li>
       <li><strong>Calibrated polling intervals.</strong> Each chat message carries its own publication timestamp, so longer intervals lose no precision — they only consume less quota.</li>
+      <li>
+        <strong>Daily budget with a hard stop.</strong> Discovery and
+        confirmation check the day's spend before each round and stop on their
+        own at the ceiling, rather than exhausting the project's quota.
+      </li>
     </ul>
 
     <h2>Compliance</h2>

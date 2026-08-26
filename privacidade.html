@@ -73,9 +73,8 @@
     <p>
       Quando você <strong>ativa a observação</strong> de uma transmissão específica, o
       LiveSurf coleta as mensagens públicas daquele chat ao vivo pela YouTube
-      Data API. Para transmissões encerradas que ainda estejam dentro da janela
-      de retenção, o sistema também pode recompor mensagens disponíveis no replay
-      público do próprio YouTube. São coletados:
+      Data API, <strong>enquanto a transmissão está no ar</strong>. Encerrada a
+      transmissão, nada mais é coletado daquele chat. São coletados:
     </p>
     <ul>
       <li>identificador da mensagem e do canal de quem escreveu;</li>
@@ -296,9 +295,9 @@
     <p>
       When you <strong>enable monitoring</strong> for a specific broadcast,
       LiveSurf collects that broadcast's public live chat messages through the
-      YouTube Data API. For ended broadcasts still within the retention window,
-      the system may also reconstruct messages available in YouTube's own public
-      replay. Collected fields include message and author channel identifiers, public display
+      YouTube Data API, <strong>while the broadcast is live</strong>. Once it
+      ends, nothing further is collected from that chat.
+      Collected fields include message and author channel identifiers, public display
       name, message text, contribution type and value (Super Chat, Super Sticker,
       membership), and public member/moderator flags.
     </p>
