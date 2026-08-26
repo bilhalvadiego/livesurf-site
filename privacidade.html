@@ -11,7 +11,7 @@
 <main class="conteudo">
 
   <h1>LiveSurf — Política de Privacidade</h1>
-  <p class="sub">Última atualização: 12 de agosto de 2026 · <em>English version below</em></p>
+  <p class="sub">Última atualização: 26 de agosto de 2026 · <em>English version below</em></p>
 
   <div class="navegacao">
     <a href="#pt">🇧🇷 Português</a>
@@ -25,9 +25,11 @@
 
     <div class="caixa">
       <strong>Resumo honesto.</strong> O LiveSurf é uma ferramenta profissional
-      de monitoramento de transmissões ao vivo, oferecida por assinatura. Os
-      dados que ele guarda existem para uma coisa só: montar os relatórios de
-      audiência das transmissões que o próprio assinante escolhe acompanhar.
+      de inteligência, operação e direção de transmissões ao vivo, oferecida por
+      assinatura. O Media reúne catálogo, monitoramento, relatórios, dashboard,
+      Observatório editorial, Ondas/cortes e Direção de Live. Os dados guardados
+      servem para operar esses recursos nas transmissões e canais escolhidos pelo
+      assinante.
       <strong>Nenhum dado é vendido, revendido ou compartilhado com terceiros
       para fins publicitários</strong>, e o dado bruto obtido do YouTube nunca é
       comercializado como produto.
@@ -70,8 +72,10 @@
     <h3>2.2 Chat público de transmissões ao vivo</h3>
     <p>
       Quando você <strong>ativa a observação</strong> de uma transmissão específica, o
-      LiveSurf coleta as mensagens públicas daquele chat ao vivo, através da
-      YouTube Data API. São coletados:
+      LiveSurf coleta as mensagens públicas daquele chat ao vivo pela YouTube
+      Data API. Para transmissões encerradas que ainda estejam dentro da janela
+      de retenção, o sistema também pode recompor mensagens disponíveis no replay
+      público do próprio YouTube. São coletados:
     </p>
     <ul>
       <li>identificador da mensagem e do canal de quem escreveu;</li>
@@ -86,7 +90,20 @@
       transmissões que você não escolheu monitorar.
     </p>
 
-    <h3>2.3 Localização</h3>
+    <h3>2.3 Estatísticas e inferências derivadas do chat</h3>
+    <p>
+      A partir das mensagens públicas, o Media calcula ritmo do chat, picos,
+      participantes distintos, perguntas, contribuições, adesões, sentimento e
+      classificações assistidas. Também mantém perfis estatísticos por transmissão,
+      por canal monitorado e no histórico da operação, associados ao identificador
+      público do canal do autor. Esses perfis podem conter nome público, contagens,
+      primeira e última participação, condição pública de membro/moderador,
+      contribuições, sentimento médio e <strong>postura inferida em relação ao canal</strong>.
+      Inferências são estimativas para apoio editorial e exigem revisão humana; não
+      devem ser usadas para produzir efeitos jurídicos ou discriminatórios.
+    </p>
+
+    <h3>2.4 Localização</h3>
     <p>
       A localização aproximada do aparelho é lida <strong>apenas</strong> quando
       você abre a previsão do tempo, e apenas para consultar a previsão daquela
@@ -94,7 +111,7 @@
       pelo LiveSurf.
     </p>
 
-    <h3>2.4 Dados de assinatura</h3>
+    <h3>2.5 Dados de assinatura e operação</h3>
     <p>
       O LiveSurf é oferecido por assinatura. Dados de contratação (razão social,
       contato responsável e vigência do plano) são guardados enquanto durar a
@@ -102,13 +119,21 @@
       processamento de pagamento é feito fora do aplicativo</strong>; o LiveSurf
       não armazena número de cartão nem credencial bancária.
     </p>
+    <p>
+      Também são guardados, conforme o uso, canais e categorias, observações,
+      configurações de alertas e automações, seleções e Ondas, cortes, roteiros,
+      relatórios editoriais, configurações do Live Studio, consumo do plano e
+      registros técnicos de segurança e diagnóstico.
+    </p>
 
     <h2>3. Por quanto tempo os dados ficam guardados</h2>
     <table>
       <tr><th>Dado</th><th>Prazo</th></tr>
-      <tr><td>Mensagens de chat coletadas</td><td>90 dias, depois apagadas automaticamente</td></tr>
-      <tr><td>Sinais de ritmo de chat</td><td>7 dias</td></tr>
-      <tr><td>Registros de observações encerradas</td><td>7 dias</td></tr>
+      <tr><td>Mensagens brutas do chat público</td><td>No máximo 30 dias, depois apagadas automaticamente</td></tr>
+      <tr><td>Acionamentos e alertas que reproduzem autor ou texto da mensagem</td><td>30 dias</td></tr>
+      <tr><td>Sinais transitórios de ritmo do chat</td><td>7 dias</td></tr>
+      <tr><td>Registros transitórios de observações encerradas</td><td>7 dias</td></tr>
+      <tr><td>Perfis estatísticos derivados e relatórios históricos</td><td>Sem expiração automática enquanto necessários à prestação do serviço, à memória analítica da operação ou ao cumprimento de obrigação legal; sujeitos a revisão, anonimização ou exclusão quando aplicável</td></tr>
       <tr><td>Dados da conta e preferências</td><td>Enquanto a conta existir</td></tr>
     </table>
     <p>
@@ -120,8 +145,8 @@
     <table>
       <tr><th>Serviço</th><th>O que recebe</th></tr>
       <tr>
-        <td><strong>YouTube Data API</strong> (Google)</td>
-        <td>Consultas sobre transmissões e chats públicos dos canais monitorados</td>
+        <td><strong>YouTube API Services e player incorporado</strong> (Google)</td>
+        <td>Consultas sobre canais, vídeos, inscrições, playlists, transmissões e chats públicos; autenticação OAuth e reprodução pelo player oficial</td>
       </tr>
       <tr>
         <td><strong>Supabase</strong></td>
@@ -132,12 +157,22 @@
         <td>Token do aparelho, para entregar as notificações</td>
       </tr>
       <tr>
-        <td><strong>DeepSeek</strong></td>
+        <td><strong>Provedores de inteligência artificial</strong> (DeepSeek, Anthropic, OpenAI ou xAI, conforme a função e a configuração da empresa)</td>
         <td>
           Nome de exibição e texto das mensagens de chat, quando você pede a
-          classificação por inteligência artificial (detecção de discurso de ódio
-          e de postura). Enviado apenas sob solicitação explícita sua.
+          classificação por inteligência artificial (por exemplo, sentimento,
+          suspeita de discurso de ódio, postura e sugestão de cortes), ou dados
+          editoriais necessários para gerar relatórios e roteiros. O provedor usado
+          depende da configuração ativa do recurso.
         </td>
+      </tr>
+      <tr>
+        <td><strong>Stripe</strong></td>
+        <td>Identificação da conta comercial, plano e dados necessários à cobrança; os dados completos do cartão não são armazenados pelo LiveSurf</td>
+      </tr>
+      <tr>
+        <td><strong>Cloudflare</strong></td>
+        <td>Entrega, proteção e execução de partes da aplicação e de sua API</td>
       </tr>
       <tr>
         <td><strong>Open-Meteo</strong></td>
@@ -182,8 +217,12 @@
       pedido é atendido em até 15 dias.
     </p>
     <p>
-      A exclusão da conta apaga também os dados associados a ela. Mensagens de
-      chat já coletadas seguem o prazo automático de 90 dias.
+      A exclusão da conta remove os dados diretamente vinculados à conta. Dados
+      públicos do YouTube compartilhados com a operação, relatórios e perfis
+      derivados podem exigir tratamento separado, pois podem estar vinculados à
+      empresa ou a mais de uma observação. Mensagens brutas seguem, em qualquer
+      caso, o teto automático de 30 dias. Pedidos relativos a um participante do
+      chat devem informar o identificador público do canal para localização segura.
     </p>
 
     <h2>7.1 Papéis no tratamento de dados</h2>
@@ -222,13 +261,15 @@
   <section id="en">
 
     <h1>LiveSurf — Privacy Policy</h1>
-    <p class="sub">Last updated: August 12, 2026</p>
+    <p class="sub">Last updated: August 26, 2026</p>
 
     <div class="caixa">
       <strong>Plain summary.</strong> LiveSurf is a professional live-broadcast
-      monitoring tool offered on a subscription basis. The data it stores exists
-      for one purpose: producing audience reports for the broadcasts each
-      subscriber chooses to monitor. <strong>No data is sold, resold, or shared
+      intelligence, operations, and live-production platform offered on a
+      subscription basis. Media includes a catalog, monitoring, reports,
+      dashboard, Editorial Observatory, Waves/clips, and Live Direction. Stored
+      data supports those features for channels and broadcasts selected by the
+      subscriber. <strong>No data is sold, resold, or shared
       with third parties for advertising purposes</strong>, and raw data obtained
       from YouTube is never commercialized as a product.
     </div>
@@ -255,7 +296,9 @@
     <p>
       When you <strong>enable monitoring</strong> for a specific broadcast,
       LiveSurf collects that broadcast's public live chat messages through the
-      YouTube Data API: message and author channel identifiers, public display
+      YouTube Data API. For ended broadcasts still within the retention window,
+      the system may also reconstruct messages available in YouTube's own public
+      replay. Collected fields include message and author channel identifiers, public display
       name, message text, contribution type and value (Super Chat, Super Sticker,
       membership), and public member/moderator flags.
     </p>
@@ -265,14 +308,27 @@
       nothing from broadcasts you did not choose to monitor.
     </p>
 
-    <h3>2.3 Location</h3>
+    <h3>2.3 Statistics and inferences derived from chat</h3>
+    <p>
+      Media derives chat pace, peaks, distinct participants, questions,
+      contributions, memberships, sentiment, and assisted classifications. It
+      also keeps statistical profiles per broadcast, monitored channel, and the
+      operation history, associated with the author's public channel identifier.
+      Profiles may contain public name, counts, first and last participation,
+      public member/moderator status, contributions, average sentiment, and
+      <strong>stance inferred in relation to the channel</strong>. Inferences are
+      estimates for editorial support, require human review, and must not be used
+      to produce legal or discriminatory effects.
+    </p>
+
+    <h3>2.4 Location</h3>
     <p>
       Approximate device location is read <strong>only</strong> when you open the
       weather feature, solely to fetch the local forecast. It is used at request
       time and is <strong>not stored</strong> by LiveSurf.
     </p>
 
-    <h3>2.4 Subscription data</h3>
+    <h3>2.5 Subscription and operation data</h3>
     <p>
       LiveSurf is offered on a subscription basis. Contracting data (legal
       entity, responsible contact, and plan term) is retained for the duration of
@@ -280,13 +336,21 @@
       <strong>Payment processing occurs outside the application</strong>;
       LiveSurf stores no card numbers or banking credentials.
     </p>
+    <p>
+      Depending on use, LiveSurf also stores channels and categories,
+      observations, alert and automation settings, selections and Waves, clips,
+      scripts, editorial reports, Live Studio settings, plan usage, and technical
+      security and diagnostic records.
+    </p>
 
     <h2>3. Data retention</h2>
     <table>
       <tr><th>Data</th><th>Period</th></tr>
-      <tr><td>Collected chat messages</td><td>90 days, then automatically deleted</td></tr>
-      <tr><td>Chat pace signals</td><td>7 days</td></tr>
-      <tr><td>Closed observation records</td><td>7 days</td></tr>
+      <tr><td>Raw public chat messages</td><td>No more than 30 days, then automatically deleted</td></tr>
+      <tr><td>Triggers and alerts reproducing message author or text</td><td>30 days</td></tr>
+      <tr><td>Transient chat pace signals</td><td>7 days</td></tr>
+      <tr><td>Transient closed-observation records</td><td>7 days</td></tr>
+      <tr><td>Derived statistical profiles and historical reports</td><td>No automatic expiry while needed to provide the service, preserve the operation's analytical history, or comply with law; subject to review, anonymization, or deletion where applicable</td></tr>
       <tr><td>Account data and preferences</td><td>While the account exists</td></tr>
     </table>
     <p>Cleanup is automatic and runs daily.</p>
@@ -294,10 +358,12 @@
     <h2>4. Third-party services</h2>
     <table>
       <tr><th>Service</th><th>What it receives</th></tr>
-      <tr><td><strong>YouTube Data API</strong> (Google)</td><td>Queries about broadcasts and public chats of monitored channels</td></tr>
+      <tr><td><strong>YouTube API Services and embedded player</strong> (Google)</td><td>Queries about channels, videos, subscriptions, playlists, broadcasts, and public chats; OAuth authentication and playback through the official player</td></tr>
       <tr><td><strong>Supabase</strong></td><td>Database and authentication — where the data above is stored</td></tr>
       <tr><td><strong>Firebase Cloud Messaging</strong> (Google)</td><td>Device token, to deliver notifications</td></tr>
-      <tr><td><strong>DeepSeek</strong></td><td>Display name and message text, when you explicitly request AI classification (hate-speech and stance detection). Sent only on explicit request.</td></tr>
+      <tr><td><strong>Artificial-intelligence providers</strong> (DeepSeek, Anthropic, OpenAI, or xAI, depending on the feature and company configuration)</td><td>Public display name and message text for assisted classification, or editorial data needed to produce reports, scripts, and clip suggestions. The active feature configuration determines the provider.</td></tr>
+      <tr><td><strong>Stripe</strong></td><td>Commercial account identification, plan, and billing data; LiveSurf does not store full card details</td></tr>
+      <tr><td><strong>Cloudflare</strong></td><td>Delivery, protection, and execution of parts of the application and its API</td></tr>
       <tr><td><strong>Open-Meteo</strong></td><td>Approximate coordinates, only when you open the weather feature</td></tr>
     </table>
 
@@ -331,7 +397,10 @@
       Under Brazil's General Data Protection Law (LGPD, Law 13.709/2018) you may
       request access, correction, portability, or deletion of your data, and may
       withdraw consent. Write to the contact below — requests are handled within
-      15 days. Deleting your account also deletes its associated data.
+      15 days. Account deletion removes data directly tied to the account. Public
+      YouTube data shared with an operation, reports, and derived profiles may
+      require separate handling because they can be linked to a company or more
+      than one observation. Raw messages remain subject to the 30-day maximum.
     </p>
 
     <h2>7.1 Data processing roles</h2>

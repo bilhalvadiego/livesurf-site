@@ -1,0 +1,841 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+/* ============================================================
+   LiveSurf News — CSS unico do Customizer.
+
+   Duas peles no mesmo arquivo:
+     1. a identidade padrao (abaixo);
+     2. o GEEK MODE, escopado em html[data-geek="1"], la no fim.
+
+   O leitor escolhe pelo botao "> GEEK" (o mu-plugin
+   livesurf-geek-mode.php escreve o atributo antes da primeira
+   pintura). Sem o atributo, NENHUMA regra geek casa — e esse e
+   tambem o rollback: apagar a secao geek nao afeta o padrao.
+
+   ⚠️ Os dois @import tem que ficar NO TOPO. `@import` depois de
+   qualquer regra e ignorado pelo navegador, e as fontes sumiriam
+   sem erro nenhum.
+   ============================================================ */
+/* ============================================================
+   LiveSurf News — identidade visual dark
+   Mesmo sistema do LiveSurf Media e do Observatorio.
+   Tema: covernews / child newscontrast
+   Rollback: apagar tudo daqui ate o fim do arquivo.
+   ============================================================ */
+
+:root{
+  --ls-tinta:#0b0b0f;      /* fundo base            */
+  --ls-painel:#14141b;     /* cartoes, sidebar      */
+  --ls-linha:#1e1e28;      /* bordas e divisores    */
+  --ls-acento:#e8462c;     /* laranja LiveSurf      */
+  --ls-texto:#f5f3ee;      /* texto principal       */
+  --ls-apagado:#8b8b9a;    /* metadados, legendas   */
+}
+
+/* ---- Base -------------------------------------------------- */
+body,
+body.aft-container-default,
+#content, .site, .site-content,
+.aft-archive-post, .content-area{
+  background-color:var(--ls-tinta) !important;
+  color:var(--ls-texto);
+}
+body{ font-family:"Space Grotesk","Helvetica Neue",Arial,sans-serif; }
+
+h1,h2,h3,h4,h5,h6,
+.site-title, .article-title, .widget-title, .entry-title{
+  font-family:"Space Grotesk","Helvetica Neue",Arial,sans-serif !important;
+  letter-spacing:-.015em;
+  color:var(--ls-texto);
+}
+a{ color:var(--ls-texto); }
+a:hover,a:focus{ color:var(--ls-acento); }
+
+/* ---- Cabecalho e navegacao --------------------------------- */
+.site-header, .top-bar, .aft-sticky-header,
+.main-navigation, .main-navigation-container-items-wrapper,
+.header-layout-side-center, .af-mobile-site-title-wrap{
+  background-color:var(--ls-tinta) !important;
+  border-color:var(--ls-linha) !important;
+}
+.site-header{ border-bottom:1px solid var(--ls-linha); }
+
+.main-navigation a,
+.main-navigation .menu > li > a{
+  color:var(--ls-texto) !important;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  font-size:13px;
+}
+.main-navigation a:hover,
+.main-navigation .current-menu-item > a{ color:var(--ls-acento) !important; }
+
+/* submenus */
+.main-navigation ul ul{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha);
+}
+
+/* Logo: o arquivo atual e um quadrado 180x180. Forcamos o lockup
+   horizontal e escondemos o <img> antigo. */
+.custom-logo-link{
+  display:inline-block !important;
+  width:190px; height:46px;
+  background:url("/wp-content/uploads/livesurf-horizontal-dark.svg") left center/contain no-repeat;
+}
+.custom-logo-link img, .custom-logo{ opacity:0 !important; width:190px !important; height:46px !important; }
+@media(max-width:782px){
+  .custom-logo-link{ width:150px; height:36px; }
+  .custom-logo-link img, .custom-logo{ width:150px !important; height:36px !important; }
+}
+
+.site-title a{ color:var(--ls-texto) !important; }
+.site-description{ color:var(--ls-apagado) !important; }
+
+/* ---- Cartoes de materia ------------------------------------ */
+.categorised-article, .spotlight-post, .featured-article,
+.latest-posts-grid article, .aft-archive-post article,
+article.post, .categorised-article-wrapper{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha) !important;
+  border-radius:2px;
+}
+.categorised-article:hover, .spotlight-post:hover, article.post:hover{
+  border-color:var(--ls-acento) !important;
+}
+
+.article-title, .article-title a, .article-title-1 a{
+  color:var(--ls-texto) !important;
+  font-weight:650;
+  line-height:1.2;
+}
+.article-title a:hover{ color:var(--ls-acento) !important; }
+
+.post-description, .full-item-discription, .entry-content p{
+  color:#c7c7d1 !important;
+  line-height:1.65;
+}
+
+/* ---- Metadados e categorias -------------------------------- */
+.item-metadata, .grid-item-metadata,
+.posts-date, .posts-author, .aft-comment-count,
+.item-metadata a, .posts-author a{
+  color:var(--ls-apagado) !important;
+  font-size:12px;
+}
+.item-metadata .far, .item-metadata i{ color:var(--ls-apagado) !important; }
+
+.cat-links a, .meta-category a,
+.covernews-categories .category-color-1 a{
+  background-color:var(--ls-acento) !important;
+  color:#ffffff !important;
+  padding:3px 9px;
+  border-radius:2px;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.cat-links a:hover, .meta-category a:hover{ background-color:#c93a22 !important; }
+
+/* ---- Botoes ------------------------------------------------ */
+.aft-readmore, .aft-readmore-wrapper a,
+button, input[type="submit"], .btn{
+  background-color:var(--ls-acento) !important;
+  border-color:var(--ls-acento) !important;
+  color:#ffffff !important;
+  border-radius:2px;
+  font-weight:600;
+}
+.aft-readmore:hover, button:hover, input[type="submit"]:hover{
+  background-color:#c93a22 !important;
+  border-color:#c93a22 !important;
+}
+
+/* ---- Sidebar e widgets ------------------------------------- */
+.widget, .sidebar-area .widget, .aft-sticky-sidebar .widget{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha) !important;
+}
+.widget-title, .widget-title-section .widget-title{
+  color:var(--ls-texto) !important;
+  border-bottom:2px solid var(--ls-acento);
+  padding-bottom:8px;
+  font-size:15px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.widget a{ color:var(--ls-texto) !important; }
+.widget a:hover{ color:var(--ls-acento) !important; }
+
+/* ---- Formularios ------------------------------------------- */
+input[type="text"], input[type="email"], input[type="search"],
+input[type="url"], textarea, select{
+  background-color:var(--ls-tinta) !important;
+  border:1px solid var(--ls-linha) !important;
+  color:var(--ls-texto) !important;
+  border-radius:2px;
+}
+input:focus, textarea:focus{ border-color:var(--ls-acento) !important; outline:none; }
+::placeholder{ color:var(--ls-apagado) !important; }
+
+/* ---- Paginacao --------------------------------------------- */
+.page-numbers{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha) !important;
+  color:var(--ls-texto) !important;
+}
+.page-numbers.current, .page-numbers:hover{
+  background-color:var(--ls-acento) !important;
+  border-color:var(--ls-acento) !important;
+  color:#fff !important;
+}
+
+/* ---- Rodape ------------------------------------------------ */
+.site-footer, .site-info, .footer-widgets-wrapper{
+  background-color:var(--ls-painel) !important;
+  border-top:1px solid var(--ls-linha);
+  color:var(--ls-apagado) !important;
+}
+.site-footer a, .site-info a{ color:var(--ls-texto) !important; }
+.site-footer a:hover{ color:var(--ls-acento) !important; }
+
+/* ---- Single: corpo da materia ------------------------------ */
+.entry-content{ color:#c7c7d1; font-size:17px; line-height:1.75; }
+.entry-content a{ color:var(--ls-acento); text-decoration:underline; }
+.entry-content blockquote{
+  border-left:3px solid var(--ls-acento);
+  background-color:var(--ls-painel);
+  color:var(--ls-texto);
+  padding:16px 22px;
+}
+hr, .entry-content hr{ border-color:var(--ls-linha); }
+
+/* ---- Barra de rolagem -------------------------------------- */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background:var(--ls-tinta); }
+::-webkit-scrollbar-thumb{ background:var(--ls-linha); border-radius:5px; }
+::-webkit-scrollbar-thumb:hover{ background:var(--ls-acento); }
+
+/* ============================================================
+   CORRECAO 1 — areas de fundo claro que o tema monta a parte.
+   Sintoma: texto claro sobre fundo branco no Flash Story e no
+   Trending Story. O bloco acima pintava a <figure>, mas o
+   <figcaption> filho traz o proprio branco e vencia por cima.
+   ============================================================ */
+
+/* ---- Faixa Flash Story ------------------------------------- */
+.banner-exclusive-posts-wrapper, .exclusive-posts,
+.exclusive-slides, .exclusive-slides .marquee,
+.marquee, .marquee-content-items{
+  background-color:var(--ls-tinta) !important;
+}
+.banner-exclusive-posts-wrapper{ border:1px solid var(--ls-linha) !important; }
+.exclusive-slides a, .marquee a, .marquee-content-items li a{
+  color:var(--ls-texto) !important;
+}
+.exclusive-slides a:hover, .marquee a:hover{ color:var(--ls-acento) !important; }
+.exclusive-now, .exclusive-now.primary-color{
+  background-color:var(--ls-acento) !important;
+  color:#ffffff !important;
+}
+.exclusive-now strong{ color:#ffffff !important; }
+
+/* ---- Trending Story e cartoes com legenda ------------------ */
+.banner-trending-posts-wrapper, .trending-posts-carousel,
+.trending-story, .slick-item, .carousel-image,
+.featured-article figcaption, .categorised-article figcaption,
+figure.featured-article > figcaption, .title-heading{
+  background-color:var(--ls-painel) !important;
+}
+.featured-article figcaption .article-title a,
+.title-heading .article-title a{ color:var(--ls-texto) !important; }
+.featured-article figcaption .article-title a:hover{ color:var(--ls-acento) !important; }
+
+/* numero da posicao no ranking */
+.trending-no{
+  background-color:var(--ls-acento) !important;
+  color:#ffffff !important;
+  font-weight:700;
+}
+
+/* ---- Titulos de secao (MAIN STORY, EDITOR'S PICKS...) ------ */
+.af-blocks .widget-title, .categorized-story .widget-title,
+.af-main-banner .widget-title{
+  color:var(--ls-texto) !important;
+}
+
+/* ============================================================
+   CORRECAO 2 — cabecalho da materia (single) com fundo branco.
+   Sintoma: titulo claro sobre branco ao abrir uma nota/noticia.
+   Causa: covernews/style.css:2670 pinta
+     `article .entry-content-wrap { background-color:#fff }`
+   O bloco do topo pinta `article.post`, mas este FILHO traz o
+   proprio branco e vence por especificidade.
+   O tema resolve isso sozinho no modo escuro nativo
+   (`body.dark article .entry-content-wrap` = #1a1a1a, linha 5932),
+   mas o site roda em `body.default` — entao pintamos aqui, com os
+   mesmos seletores que o tema usa, e vale nos dois modos.
+   ============================================================ */
+
+article .entry-content-wrap,
+article .comments-area,
+article .em-posts-promotions .widget,
+.single-column-posts,
+.header-details-wrapper,
+.entry-header-details{
+  background-color:var(--ls-painel) !important;
+}
+.entry-header .entry-title,
+.entry-header-details .entry-title,
+.entry-header-details .entry-title a{ color:var(--ls-texto) !important; }
+.entry-header-details .posts-author,
+.entry-header-details .posts-author a,
+.entry-header-details .posts-date,
+.entry-header-details .aft-comment-count{ color:var(--ls-apagado) !important; }
+.em-breadcrumbs, .em-breadcrumbs ul .trail-item span,
+.em-breadcrumbs ul .trail-item a{ color:var(--ls-apagado) !important; }
+
+/* ============================================================
+   CAPA PADRAO — cards sem imagem destacada.
+   88% dos cards da home nao tem capa: as fontes que dominam o
+   Inoreader (Google News e YouTube) NAO mandam imagem no feed, e
+   o og:image do Google News devolve o logo do proprio Google.
+   Nao ha o que extrair — entao entra a capa da marca.
+   O tema entrega a ancora exata: marca o wrapper com
+   `.no-post-image` e deixa um `.read-bg-img` VAZIO (colapsado).
+   Rollback: apagar este bloco.
+   ============================================================ */
+
+.no-post-image .read-bg-img{
+  display:block;
+  /* aspect-ratio e nao min-height: o card mantem proporcao em
+     qualquer coluna do grid, sem numero magico por breakpoint. */
+  aspect-ratio:16/9;
+  background:var(--ls-painel) url("/wp-content/uploads/livesurf-thumb-default.svg")
+             center/cover no-repeat;
+  border-bottom:2px solid var(--ls-acento);
+}
+.no-post-image .read-bg-img > a{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+/* ============================================================
+   MARCA NO CABECALHO — lockup acima do titulo do site.
+   Historico: havia um bloco mirando `.custom-logo-link`, mas esse
+   elemento NAO existe no HTML publicado (conferido em 23/08/2026:
+   o cabecalho traz so `<h1 class="site-title"><a>>News_</a></h1>`,
+   e `masthead-banner` vem com `data-background=""`). Ou seja: nao
+   ha logotipo nem imagem de cabecalho salvos no WordPress — o que
+   aparece no Customizer e apenas preview.
+   Em vez de depender de um campo do WP que ja se perdeu uma vez,
+   a marca e pintada aqui, sobre um elemento que sempre existe.
+   Rollback: apagar este bloco.
+   ============================================================ */
+
+.site-branding{ text-align:center; }
+.site-branding::before{
+  content:"";
+  display:block;
+  width:220px;
+  height:54px;
+  margin:0 auto 6px;
+  background:url("/wp-content/uploads/livesurf-horizontal-dark.svg") center/contain no-repeat;
+}
+@media(max-width:782px){
+  .site-branding::before{ width:170px; height:42px; }
+}
+
+
+/* ============================================================
+   BOTAO DO GEEK MODE e CURSOR DA MARCA
+   Valem nos DOIS modos: o botao precisa existir para ligar, e o
+   cursor do `>News_` e a marca do site, nao enfeite do geek.
+   ============================================================ */
+
+.ls-geek-toggle{
+  background:transparent;
+  border:1px solid currentColor;
+  border-radius:2px;
+  color:inherit;
+  cursor:pointer;
+  font:600 11px/1 "Space Grotesk","Helvetica Neue",Arial,sans-serif;
+  letter-spacing:.08em;
+  padding:6px 10px;
+  text-transform:uppercase;
+}
+.ls-geek-toggle:hover{ border-color:var(--ls-acento); color:var(--ls-acento); }
+.ls-geek-item{ display:flex; align-items:center; }
+
+/* Reserva: se o tema mudar o markup do menu, o botao vira flutuante em vez
+   de sumir. Feio e melhor que invisivel. */
+.ls-geek-flutuante{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  z-index:9998;
+  background:var(--ls-painel);
+  color:var(--ls-texto);
+}
+
+/* O `_` do `>News_`. Um span criado pelo JS, porque CSS nao seleciona
+   caractere. `prefers-reduced-motion` desliga a piscada. */
+.ls-cursor{ color:var(--ls-acento); }
+@keyframes ls-piscar{ 50%{ opacity:0; } }
+.ls-cursor{ animation:ls-piscar 1.1s step-end infinite; }
+@media(prefers-reduced-motion:reduce){
+  .ls-cursor{ animation:none; }
+}
+
+/* No geek, o botao segue a paleta de fosforo. */
+html[data-geek="1"] .ls-geek-toggle{
+  font-family:"Share Tech Mono",monospace;
+  border-color:var(--ls-acento);
+  color:var(--ls-acento);
+}
+
+/* ============================================================
+   LiveSurf News — tema ALTERNATIVO "terminal de fosforo verde"
+   Tema WordPress: covernews / child newscontrast
+
+   ⚠️ Isto SUBSTITUI o identidade-livesurf.css no Customizer.
+   Nao cole os dois: eles disputam as mesmas regras.
+   Rollback: recolar o identidade-livesurf.css.
+
+   Tipografia (Google Fonts):
+     VT323          -> titulos e marca (a fonte de CRT classica)
+     Share Tech Mono-> corpo. VT323 em 15px vira ilegivel; o par
+                       mantem o clima sem cansar quem le materia.
+   ============================================================ */
+
+html[data-geek="1"]{
+  --ls-tinta:#040805;      /* preto de tubo, com leve verde     */
+  --ls-painel:#0a130c;     /* cartoes, sidebar                  */
+  --ls-linha:#173d22;      /* bordas e divisores                */
+  --ls-acento:#39ff6a;     /* fosforo vivo: links, destaques    */
+  --ls-texto:#33e05f;      /* verde de leitura                  */
+  --ls-apagado:#2f8f4e;    /* metadados, legendas               */
+  --ls-brilho:0 0 4px rgba(57,255,106,.35); /* halo do fosforo  */
+}
+
+/* ---- Base -------------------------------------------------- */
+html[data-geek="1"] body,
+html[data-geek="1"] body.aft-container-default,
+html[data-geek="1"] #content,
+html[data-geek="1"] .site,
+html[data-geek="1"] .site-content,
+html[data-geek="1"] .aft-archive-post,
+html[data-geek="1"] .content-area{
+  background-color:var(--ls-tinta) !important;
+  color:var(--ls-texto);
+}
+html[data-geek="1"] body{
+  font-family:"Share Tech Mono","Courier New",Courier,monospace;
+  text-shadow:var(--ls-brilho);
+}
+
+html[data-geek="1"] h1,
+html[data-geek="1"] h2,
+html[data-geek="1"] h3,
+html[data-geek="1"] h4,
+html[data-geek="1"] h5,
+html[data-geek="1"] h6,
+html[data-geek="1"] .site-title,
+html[data-geek="1"] .article-title,
+html[data-geek="1"] .widget-title,
+html[data-geek="1"] .entry-title{
+  font-family:"VT323","Courier New",Courier,monospace !important;
+  letter-spacing:.01em;
+  color:var(--ls-acento);
+  /* VT323 e estreita: sem subir o tamanho, titulo fica menor que
+     o corpo. */
+  font-size:1.35em;
+}
+html[data-geek="1"] a{ color:var(--ls-texto); }
+html[data-geek="1"] a:hover,
+html[data-geek="1"] a:focus{ color:var(--ls-acento); }
+
+/* ---- Varredura de CRT --------------------------------------
+   Linhas horizontais por cima de tudo, sem capturar clique.
+   Se cansar a vista, apague este bloco: nada mais depende dele. */
+html[data-geek="1"] body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,.22) 3px,
+    rgba(0,0,0,.22) 4px
+  );
+}
+
+/* ---- Cabecalho e navegacao --------------------------------- */
+html[data-geek="1"] .site-header,
+html[data-geek="1"] .top-bar,
+html[data-geek="1"] .aft-sticky-header,
+html[data-geek="1"] .main-navigation,
+html[data-geek="1"] .main-navigation-container-items-wrapper,
+html[data-geek="1"] .header-layout-side-center,
+html[data-geek="1"] .af-mobile-site-title-wrap{
+  background-color:var(--ls-tinta) !important;
+  border-color:var(--ls-linha) !important;
+}
+html[data-geek="1"] .site-header{ border-bottom:1px solid var(--ls-linha); }
+
+html[data-geek="1"] .main-navigation a,
+html[data-geek="1"] .main-navigation .menu > li > a{
+  color:var(--ls-texto) !important;
+  font-weight:400;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:14px;
+}
+html[data-geek="1"] .main-navigation a:hover,
+html[data-geek="1"] .main-navigation .current-menu-item > a{ color:var(--ls-acento) !important; }
+/* O item ativo ganha o prompt, em vez de cor solida. */
+html[data-geek="1"] .main-navigation .current-menu-item > a::before{ content:"> "; }
+
+html[data-geek="1"] .main-navigation ul ul{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha);
+}
+
+/* ---- Marca no cabecalho ------------------------------------
+   Mesmo lockup do tema padrao (nao ha logo salvo no WordPress —
+   ver o README). O `hue-rotate` leva o laranja da marca pro
+   verde do fosforo SEM precisar subir um SVG novo; o wordmark
+   claro nao tem saturacao, entao continua claro. */
+html[data-geek="1"] .site-branding{ text-align:center; }
+html[data-geek="1"] .site-branding::before{
+  content:"";
+  display:block;
+  width:220px;
+  height:54px;
+  margin:0 auto 6px;
+  background:url("/wp-content/uploads/livesurf-horizontal-dark.svg") center/contain no-repeat;
+  filter:hue-rotate(118deg) saturate(2.2) brightness(1.5);
+}
+
+
+html[data-geek="1"] .site-title a{ color:var(--ls-acento) !important; }
+html[data-geek="1"] .site-description{ color:var(--ls-apagado) !important; }
+
+/* ---- Cartoes de materia ------------------------------------ */
+html[data-geek="1"] .categorised-article,
+html[data-geek="1"] .spotlight-post,
+html[data-geek="1"] .featured-article,
+html[data-geek="1"] .latest-posts-grid article,
+html[data-geek="1"] .aft-archive-post article,
+html[data-geek="1"] article.post,
+html[data-geek="1"] .categorised-article-wrapper{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha) !important;
+  border-radius:0;   /* terminal nao tem canto arredondado */
+}
+html[data-geek="1"] .categorised-article:hover,
+html[data-geek="1"] .spotlight-post:hover,
+html[data-geek="1"] article.post:hover{
+  border-color:var(--ls-acento) !important;
+  box-shadow:0 0 10px rgba(57,255,106,.18);
+}
+
+html[data-geek="1"] .article-title,
+html[data-geek="1"] .article-title a,
+html[data-geek="1"] .article-title-1 a{
+  color:var(--ls-acento) !important;
+  font-weight:400;
+  line-height:1.15;
+}
+html[data-geek="1"] .article-title a:hover{ color:#9dffbc !important; }
+
+html[data-geek="1"] .post-description,
+html[data-geek="1"] .full-item-discription,
+html[data-geek="1"] .entry-content p{
+  color:var(--ls-texto) !important;
+  line-height:1.7;
+}
+
+/* ---- Metadados e categorias -------------------------------- */
+html[data-geek="1"] .item-metadata,
+html[data-geek="1"] .grid-item-metadata,
+html[data-geek="1"] .posts-date,
+html[data-geek="1"] .posts-author,
+html[data-geek="1"] .aft-comment-count,
+html[data-geek="1"] .item-metadata a,
+html[data-geek="1"] .posts-author a{
+  color:var(--ls-apagado) !important;
+  font-size:13px;
+}
+html[data-geek="1"] .item-metadata .far,
+html[data-geek="1"] .item-metadata i{ color:var(--ls-apagado) !important; }
+
+/* Categoria vira etiqueta de terminal: contorno, nao preenchimento. */
+html[data-geek="1"] .cat-links a,
+html[data-geek="1"] .meta-category a,
+html[data-geek="1"] .covernews-categories .category-color-1 a{
+  background-color:transparent !important;
+  border:1px solid var(--ls-acento);
+  color:var(--ls-acento) !important;
+  padding:2px 8px;
+  border-radius:0;
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+html[data-geek="1"] .cat-links a:hover,
+html[data-geek="1"] .meta-category a:hover{
+  background-color:var(--ls-acento) !important;
+  color:var(--ls-tinta) !important;
+  text-shadow:none;
+}
+
+/* ---- Botoes ------------------------------------------------ */
+html[data-geek="1"] .aft-readmore,
+html[data-geek="1"] .aft-readmore-wrapper a,
+html[data-geek="1"] button,
+html[data-geek="1"] input[type="submit"],
+html[data-geek="1"] .btn{
+  background-color:transparent !important;
+  border:1px solid var(--ls-acento) !important;
+  color:var(--ls-acento) !important;
+  border-radius:0;
+  font-family:"Share Tech Mono",monospace;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+html[data-geek="1"] .aft-readmore:hover,
+html[data-geek="1"] button:hover,
+html[data-geek="1"] input[type="submit"]:hover{
+  background-color:var(--ls-acento) !important;
+  color:var(--ls-tinta) !important;
+  text-shadow:none;
+}
+
+/* ---- Sidebar e widgets ------------------------------------- */
+html[data-geek="1"] .widget,
+html[data-geek="1"] .sidebar-area .widget,
+html[data-geek="1"] .aft-sticky-sidebar .widget{
+  background-color:var(--ls-painel) !important;
+  border:1px solid var(--ls-linha) !important;
+}
+html[data-geek="1"] .widget-title,
+html[data-geek="1"] .widget-title-section .widget-title{
+  color:var(--ls-acento) !important;
+  border-bottom:1px solid var(--ls-acento);
+  padding-bottom:6px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+html[data-geek="1"] .widget-title::before{ content:"// "; }
+html[data-geek="1"] .widget a{ color:var(--ls-texto) !important; }
+html[data-geek="1"] .widget a:hover{ color:var(--ls-acento) !important; }
+
+/* ---- Formularios ------------------------------------------- */
+html[data-geek="1"] input[type="text"],
+html[data-geek="1"] input[type="email"],
+html[data-geek="1"] input[type="search"],
+html[data-geek="1"] input[type="url"],
+html[data-geek="1"] textarea,
+html[data-geek="1"] select{
+  background-color:var(--ls-tinta) !important;
+  border:1px solid var(--ls-linha) !important;
+  color:var(--ls-acento) !important;
+  border-radius:0;
+  font-family:"Share Tech Mono",monospace;
+}
+html[data-geek="1"] input:focus,
+html[data-geek="1"] textarea:focus{ border-color:var(--ls-acento) !important; outline:none; }
+html[data-geek="1"] ::placeholder{ color:var(--ls-apagado) !important; }
+
+/* ---- Paginacao --------------------------------------------- */
+html[data-geek="1"] .page-numbers{
+  background-color:transparent !important;
+  border:1px solid var(--ls-linha) !important;
+  color:var(--ls-texto) !important;
+  border-radius:0;
+}
+html[data-geek="1"] .page-numbers.current,
+html[data-geek="1"] .page-numbers:hover{
+  background-color:var(--ls-acento) !important;
+  border-color:var(--ls-acento) !important;
+  color:var(--ls-tinta) !important;
+  text-shadow:none;
+}
+
+/* ---- Rodape ------------------------------------------------ */
+html[data-geek="1"] .site-footer,
+html[data-geek="1"] .site-info,
+html[data-geek="1"] .footer-widgets-wrapper{
+  background-color:var(--ls-painel) !important;
+  border-top:1px solid var(--ls-linha);
+  color:var(--ls-apagado) !important;
+}
+html[data-geek="1"] .site-footer a,
+html[data-geek="1"] .site-info a{ color:var(--ls-texto) !important; }
+html[data-geek="1"] .site-footer a:hover{ color:var(--ls-acento) !important; }
+
+/* ---- Single: corpo da materia ------------------------------ */
+html[data-geek="1"] .entry-content{
+  color:var(--ls-texto);
+  font-size:17px;
+  line-height:1.8;
+}
+html[data-geek="1"] .entry-content a{ color:var(--ls-acento); text-decoration:underline; }
+html[data-geek="1"] .entry-content blockquote{
+  border-left:2px solid var(--ls-acento);
+  background-color:var(--ls-painel);
+  color:var(--ls-acento);
+  padding:16px 22px;
+}
+html[data-geek="1"] hr,
+html[data-geek="1"] .entry-content hr{ border-color:var(--ls-linha); }
+
+/* Cursor piscando no fim da materia — o detalhe que fecha o clima.
+   `prefers-reduced-motion` desliga: pisca-pisca e gatilho de enjoo
+   pra quem tem sensibilidade a movimento. */
+html[data-geek="1"] .entry-content > p:last-of-type::after{
+  content:"_";
+  color:var(--ls-acento);
+  animation:ls-cursor 1.1s step-end infinite;
+}
+
+
+
+/* ---- Barra de rolagem -------------------------------------- */
+html[data-geek="1"] ::-webkit-scrollbar{ width:10px; height:10px; }
+html[data-geek="1"] ::-webkit-scrollbar-track{ background:var(--ls-tinta); }
+html[data-geek="1"] ::-webkit-scrollbar-thumb{ background:var(--ls-linha); border-radius:0; }
+html[data-geek="1"] ::-webkit-scrollbar-thumb:hover{ background:var(--ls-acento); }
+
+/* ============================================================
+   CORRECAO 1 — areas de fundo claro que o tema monta a parte.
+   Sintoma: texto claro sobre fundo branco no Flash Story e no
+   Trending Story. O bloco de cima pinta a <figure>, mas o
+   <figcaption> filho traz o proprio branco e vence.
+   ============================================================ */
+
+html[data-geek="1"] .banner-exclusive-posts-wrapper,
+html[data-geek="1"] .exclusive-posts,
+html[data-geek="1"] .exclusive-slides,
+html[data-geek="1"] .exclusive-slides .marquee,
+html[data-geek="1"] .marquee,
+html[data-geek="1"] .marquee-content-items{
+  background-color:var(--ls-tinta) !important;
+}
+html[data-geek="1"] .banner-exclusive-posts-wrapper{ border:1px solid var(--ls-linha) !important; }
+html[data-geek="1"] .exclusive-slides a,
+html[data-geek="1"] .marquee a,
+html[data-geek="1"] .marquee-content-items li a{
+  color:var(--ls-texto) !important;
+}
+html[data-geek="1"] .exclusive-slides a:hover,
+html[data-geek="1"] .marquee a:hover{ color:var(--ls-acento) !important; }
+html[data-geek="1"] .exclusive-now,
+html[data-geek="1"] .exclusive-now.primary-color{
+  background-color:var(--ls-acento) !important;
+  color:var(--ls-tinta) !important;
+  text-shadow:none;
+}
+html[data-geek="1"] .exclusive-now strong{ color:var(--ls-tinta) !important; }
+
+html[data-geek="1"] .banner-trending-posts-wrapper,
+html[data-geek="1"] .trending-posts-carousel,
+html[data-geek="1"] .trending-story,
+html[data-geek="1"] .slick-item,
+html[data-geek="1"] .carousel-image,
+html[data-geek="1"] .featured-article figcaption,
+html[data-geek="1"] .categorised-article figcaption,
+html[data-geek="1"] figure.featured-article > figcaption,
+html[data-geek="1"] .title-heading{
+  background-color:var(--ls-painel) !important;
+}
+html[data-geek="1"] .featured-article figcaption .article-title a,
+html[data-geek="1"] .title-heading .article-title a{ color:var(--ls-acento) !important; }
+
+html[data-geek="1"] .trending-no{
+  background-color:var(--ls-acento) !important;
+  color:var(--ls-tinta) !important;
+  text-shadow:none;
+}
+
+html[data-geek="1"] .af-blocks .widget-title,
+html[data-geek="1"] .categorized-story .widget-title,
+html[data-geek="1"] .af-main-banner .widget-title{ color:var(--ls-acento) !important; }
+
+html[data-geek="1"] /* ============================================================
+   CORRECAO 2 — cabecalho da materia (single) com fundo branco.
+   Causa: covernews/style.css:2670 pinta
+     `article .entry-content-wrap{ background-color:#fff }html[data-geek="1"] `
+   e esse FILHO vence o `article.post` do bloco de cima.
+   ============================================================ */
+
+article .entry-content-wrap,
+html[data-geek="1"] article .comments-area,
+html[data-geek="1"] article .em-posts-promotions .widget,
+html[data-geek="1"] .single-column-posts,
+html[data-geek="1"] .header-details-wrapper,
+html[data-geek="1"] .entry-header-details{
+  background-color:var(--ls-painel) !important;
+}
+html[data-geek="1"] .entry-header .entry-title,
+html[data-geek="1"] .entry-header-details .entry-title,
+html[data-geek="1"] .entry-header-details .entry-title a{ color:var(--ls-acento) !important; }
+html[data-geek="1"] .entry-header-details .posts-author,
+html[data-geek="1"] .entry-header-details .posts-author a,
+html[data-geek="1"] .entry-header-details .posts-date,
+html[data-geek="1"] .entry-header-details .aft-comment-count{ color:var(--ls-apagado) !important; }
+html[data-geek="1"] .em-breadcrumbs,
+html[data-geek="1"] .em-breadcrumbs ul .trail-item span,
+html[data-geek="1"] .em-breadcrumbs ul .trail-item a{ color:var(--ls-apagado) !important; }
+
+/* ============================================================
+   CAPA PADRAO — cards sem imagem destacada.
+   88% dos cards nao tem capa: Google News e YouTube nao mandam
+   imagem no feed. O tema marca o wrapper com `.no-post-image` e
+   deixa um `.read-bg-img` VAZIO — e a capa da marca entra ali.
+
+   A imagem fica num ::before para o `hue-rotate` (que a leva pro
+   verde) NAO atingir a borda: filtro aplicado no elemento pinta
+   a borda junto e ela sairia de outra cor.
+   ============================================================ */
+
+html[data-geek="1"] .no-post-image .read-bg-img{
+  display:block;
+  position:relative;
+  aspect-ratio:16/9;
+  background-color:var(--ls-painel);
+  border-bottom:1px solid var(--ls-acento);
+  overflow:hidden;
+}
+html[data-geek="1"] .no-post-image .read-bg-img::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url("/wp-content/uploads/livesurf-thumb-default.svg") center/cover no-repeat;
+  filter:hue-rotate(118deg) saturate(2.2) brightness(1.5);
+}
+html[data-geek="1"] .no-post-image .read-bg-img > a{
+  position:relative;   /* acima do ::before, senao o link nao clica */
+  z-index:1;
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+@media(max-width:782px){
+  html[data-geek="1"] .site-branding::before{ width:170px; height:42px; }
+}
+
+@keyframes ls-cursor{ 50%{ opacity:0; } }
+
+@media(prefers-reduced-motion:reduce){
+  html[data-geek="1"] .entry-content > p:last-of-type::after{ animation:none; }
+}

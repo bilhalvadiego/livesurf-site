@@ -20,19 +20,38 @@
 
   <h1>Uso da YouTube Data API</h1>
   <p class="sub">
-    Página técnica de conformidade · Atualizada em 12 de agosto de 2026 ·
+    Página técnica de transparência · Atualizada em 26 de agosto de 2026 ·
     <em>English version below</em>
   </p>
 
   <div class="caixa">
     Esta página existe para transparência com o YouTube e com clientes que
-    precisam auditar como seus dados são tratados. Não descreve o
-    funcionamento interno do produto.
+    precisam auditar como seus dados são tratados. Ela lista os endereços,
+    recursos e finalidades efetivamente presentes no Media LiveSurf.
   </div>
 
   <section id="pt">
 
-    <h2>Endpoints utilizados</h2>
+    <h2>Endereços e autenticação utilizados</h2>
+    <table>
+      <thead><tr><th>Endereço</th><th>Finalidade</th></tr></thead>
+      <tbody>
+        <tr><td><code>https://www.googleapis.com/youtube/v3/</code></td><td>Base da YouTube Data API v3</td></tr>
+        <tr><td><code>https://accounts.google.com/o/oauth2/v2/auth</code></td><td>Consentimento OAuth do Google</td></tr>
+        <tr><td><code>https://oauth2.googleapis.com/token</code> e <code>/revoke</code></td><td>Troca, renovação e revogação de tokens no servidor</td></tr>
+        <tr><td><code>https://vfohnyldbwkbarvpwnqw.supabase.co/functions/v1/youtube-playlists/callback</code></td><td>URI de redirecionamento OAuth da integração permanente</td></tr>
+        <tr><td><code>https://www.youtube.com/iframe_api</code>, <code>https://www.youtube-nocookie.com/embed/</code> e <code>https://www.youtube.com/live_chat</code></td><td>Player oficial incorporado e painel oficial de chat</td></tr>
+        <tr><td><code>https://i.ytimg.com/</code></td><td>Miniaturas oficiais dos vídeos</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Quando uma pessoa conecta seu canal, o escopo solicitado é
+      <code>https://www.googleapis.com/auth/youtube.force-ssl</code>. O refresh
+      token fica cifrado no servidor e não é entregue ao navegador. O acesso pode
+      ser revogado no LiveSurf ou na página de permissões da Conta Google.
+    </p>
+
+    <h2>Recursos da YouTube Data API utilizados</h2>
     <table>
       <thead>
         <tr><th>Endpoint</th><th>Finalidade</th></tr>
@@ -40,18 +59,47 @@
       <tbody>
         <tr>
           <td><code>videos.list</code></td>
-          <td>Verificar quais dos canais acompanhados estão transmitindo ao vivo no momento, e confirmar quando uma transmissão termina</td>
+          <td>Consultar metadados, estatísticas e detalhes de transmissão ao vivo; confirmar início e encerramento</td>
         </tr>
         <tr>
-          <td><code>liveChat/messages.list</code></td>
-          <td>Coletar o chat público das transmissões que o assinante escolheu observar</td>
+          <td><code>liveChatMessages.list</code></td>
+          <td>Coletar mensagens e detalhes públicos de autor do chat das transmissões escolhidas para observação</td>
         </tr>
         <tr>
-          <td><code>search.list</code></td>
-          <td>Resolver qual transmissão está no ar em um canal quando o assinante o abre</td>
+          <td><code>channels.list</code>, <code>playlistItems.list</code> e <code>i18nLanguages.list</code></td>
+          <td>Resolver canais e seus uploads, atualizar o catálogo e oferecer idiomas aceitos pela API</td>
+        </tr>
+        <tr>
+          <td><code>subscriptions.list</code> e <code>subscriptions.insert</code></td>
+          <td>Listar ou copiar inscrições quando o usuário aciona expressamente esse recurso autorizado</td>
+        </tr>
+        <tr>
+          <td><code>playlists.insert</code>, <code>playlists.delete</code> e <code>playlistItems.insert</code></td>
+          <td>Exportar uma seleção/roteiro para uma playlist privada e permitir sua exclusão</td>
+        </tr>
+        <tr>
+          <td><code>videos.getRating</code> e <code>videos.rate</code></td>
+          <td>Ler e alterar a avaliação do vídeo quando solicitada pelo usuário conectado</td>
+        </tr>
+        <tr>
+          <td><code>liveChatMessages.insert</code></td>
+          <td>Automação autorizada de mensagens do canal conectado; o envio manual pela interface está atualmente desabilitado</td>
         </tr>
       </tbody>
     </table>
+
+    <h2>Descoberta pública e replay</h2>
+    <p>
+      Para reduzir cota e completar informações públicas, o LiveSurf também lê
+      páginas e feeds públicos do próprio YouTube em
+      <code>https://www.youtube.com/channel/{channelId}/live</code>,
+      <code>https://www.youtube.com/feeds/videos.xml</code> e
+      <code>https://www.youtube.com/watch</code>. Dentro da janela de retenção,
+      a recomposição de chat encerrado pode consultar o replay público em
+      <code>https://www.youtube.com/youtubei/v1/live_chat/get_live_chat_replay</code>.
+      Esses caminhos não dão acesso a mensagens privadas nem às credenciais de
+      participantes do chat.
+    </p>
 
     <h2>Uso responsável de cota</h2>
     <p>
@@ -84,7 +132,8 @@
       <li>Nenhum vídeo é baixado, re-hospedado, retransmitido ou recodificado.</li>
       <li>Anúncios e marca do YouTube nunca são removidos ou ocultados.</li>
       <li>Apenas chat <strong>público</strong> é coletado, e só das transmissões que o assinante escolheu observar.</li>
-      <li>Mensagens coletadas são apagadas automaticamente após 90 dias.</li>
+      <li>Mensagens brutas e acionamentos que repetem autor ou texto são apagados automaticamente em no máximo 30 dias.</li>
+      <li>Perfis estatísticos derivados e relatórios históricos têm retenção separada, descrita na Política de Privacidade; eles podem permanecer associados ao identificador público do canal e não são apresentados como dados anônimos.</li>
       <li>
         <strong>Dados da API não são vendidos, revendidos nem licenciados</strong>
         como produto — nem em forma bruta, nem processada. A assinatura remunera
@@ -109,9 +158,28 @@
   <section id="en">
 
     <h1>YouTube Data API usage</h1>
-    <p class="sub">Compliance reference · Updated August 12, 2026</p>
+    <p class="sub">Technical transparency reference · Updated August 26, 2026</p>
 
-    <h2>Endpoints used</h2>
+    <h2>Addresses and authentication used</h2>
+    <table>
+      <thead><tr><th>Address</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>https://www.googleapis.com/youtube/v3/</code></td><td>YouTube Data API v3 base URL</td></tr>
+        <tr><td><code>https://accounts.google.com/o/oauth2/v2/auth</code></td><td>Google OAuth consent</td></tr>
+        <tr><td><code>https://oauth2.googleapis.com/token</code> and <code>/revoke</code></td><td>Server-side token exchange, renewal, and revocation</td></tr>
+        <tr><td><code>https://vfohnyldbwkbarvpwnqw.supabase.co/functions/v1/youtube-playlists/callback</code></td><td>OAuth redirect URI for the permanent integration</td></tr>
+        <tr><td><code>https://www.youtube.com/iframe_api</code>, <code>https://www.youtube-nocookie.com/embed/</code>, and <code>https://www.youtube.com/live_chat</code></td><td>Official embedded player and official chat panel</td></tr>
+        <tr><td><code>https://i.ytimg.com/</code></td><td>Official video thumbnails</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Connecting a channel requests the
+      <code>https://www.googleapis.com/auth/youtube.force-ssl</code> scope. The
+      refresh token is encrypted on the server and is not exposed to the browser.
+      Access can be revoked in LiveSurf or on the Google Account permissions page.
+    </p>
+
+    <h2>YouTube Data API resources used</h2>
     <table>
       <thead>
         <tr><th>Endpoint</th><th>Purpose</th></tr>
@@ -119,18 +187,47 @@
       <tbody>
         <tr>
           <td><code>videos.list</code></td>
-          <td>Determine which followed channels are currently live, and confirm when a broadcast ends</td>
+          <td>Read metadata, statistics, and live-streaming details and confirm start or end state</td>
         </tr>
         <tr>
-          <td><code>liveChat/messages.list</code></td>
-          <td>Collect public live chat from broadcasts the subscriber chose to monitor</td>
+          <td><code>liveChatMessages.list</code></td>
+          <td>Collect public messages and public author details from broadcasts selected for monitoring</td>
         </tr>
         <tr>
-          <td><code>search.list</code></td>
-          <td>Resolve which broadcast is airing on a channel when the subscriber opens it</td>
+          <td><code>channels.list</code>, <code>playlistItems.list</code>, and <code>i18nLanguages.list</code></td>
+          <td>Resolve channels and uploads, update the catalog, and offer API-supported languages</td>
+        </tr>
+        <tr>
+          <td><code>subscriptions.list</code> and <code>subscriptions.insert</code></td>
+          <td>List or copy subscriptions when the user expressly invokes that authorized feature</td>
+        </tr>
+        <tr>
+          <td><code>playlists.insert</code>, <code>playlists.delete</code>, and <code>playlistItems.insert</code></td>
+          <td>Export a selection/script to a private playlist and allow its deletion</td>
+        </tr>
+        <tr>
+          <td><code>videos.getRating</code> and <code>videos.rate</code></td>
+          <td>Read or change a video's rating when requested by the connected user</td>
+        </tr>
+        <tr>
+          <td><code>liveChatMessages.insert</code></td>
+          <td>Authorized automation for the connected channel; manual sending in the interface is currently disabled</td>
         </tr>
       </tbody>
     </table>
+
+    <h2>Public discovery and replay</h2>
+    <p>
+      To conserve quota and complete public information, LiveSurf also reads
+      YouTube's own public pages and feeds at
+      <code>https://www.youtube.com/channel/{channelId}/live</code>,
+      <code>https://www.youtube.com/feeds/videos.xml</code>, and
+      <code>https://www.youtube.com/watch</code>. Within the retention window,
+      reconstruction of an ended chat may query its public replay at
+      <code>https://www.youtube.com/youtubei/v1/live_chat/get_live_chat_replay</code>.
+      These paths do not provide access to private messages or chat participants'
+      credentials.
+    </p>
 
     <h2>Responsible quota use</h2>
     <ul>
@@ -146,7 +243,8 @@
       <li>No video is downloaded, re-hosted, proxied, or re-encoded.</li>
       <li>YouTube advertising and branding are never removed or obscured.</li>
       <li>Only <strong>public</strong> chat is collected, and only from broadcasts the subscriber chose to monitor.</li>
-      <li>Collected messages are automatically deleted after 90 days.</li>
+      <li>Raw messages and triggers reproducing an author or message text are automatically deleted within 30 days.</li>
+      <li>Derived statistical profiles and historical reports have separate retention described in the Privacy Policy; they may remain associated with a public channel identifier and are not presented as anonymous data.</li>
       <li><strong>API data is never sold, resold, or licensed</strong> as a product, in raw or processed form. The subscription pays for the software, not the data.</li>
       <li>No data is shared with advertisers or data brokers.</li>
     </ul>
